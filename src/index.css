@@ -31,6 +31,11 @@
     @apply backdrop-blur-xl;
   }
   
+  .feather-blur {
+    mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+  }
+  
   .text-glow {
     text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
   }
