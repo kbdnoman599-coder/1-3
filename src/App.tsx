@@ -397,10 +397,10 @@ const Hero = () => {
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl md:text-[10rem] font-display font-light tracking-tighter leading-[0.85]"
+            className="text-5xl md:text-[8rem] font-display font-light tracking-tighter leading-[0.85]"
           >
             ONE THIRD <br /> 
-            <span className="block mt-2 font-bold text-transparent [text-shadow:0_0_8px_rgba(255,255,255,0.6)] [-webkit-text-stroke:1px_rgba(255,255,255,0.5)]">
+            <span className="block mt-2 font-bold text-transparent [text-shadow:0_0_8px_rgba(255,255,255,0.4)] [-webkit-text-stroke:1px_rgba(255,255,255,0.5)]">
               PRODUCTION
             </span>
           </motion.h1>
