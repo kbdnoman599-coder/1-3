@@ -365,7 +365,7 @@ const Hero = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
-    <section className="relative h-[70vh] md:h-screen w-full overflow-hidden flex items-center justify-center">
+    <section className="relative h-[70vh] md:h-screen w-full overflow-hidden flex items-center">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-black/70 z-10" />
         <img 
@@ -376,36 +376,30 @@ const Hero = () => {
         />
       </div>
 
-      <motion.div 
-        style={{ y: y1, opacity }}
-        className="relative z-20 text-center px-6"
-      >
-        <motion.span 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="inline-block text-[10px] font-mono tracking-[0.6em] uppercase text-white/40 mb-8"
+      <div className="max-w-7xl mx-auto w-full px-6 md:px-10 relative z-20">
+        <motion.div 
+          style={{ y: y1, opacity }}
+          className="text-left"
         >
-          Welcome to
-        </motion.span>
-        <motion.h1 
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-5xl md:text-[10rem] font-display font-light tracking-tighter leading-[0.85] text-glow"
-        >
-          ONE THIRD <br /> <span className="font-bold">PRODUCTION</span>
-        </motion.h1>
-      </motion.div>
+          <motion.span 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="inline-block text-[10px] font-mono tracking-[0.6em] uppercase text-white/40 mb-8"
+          >
+            Welcome to
+          </motion.span>
+          <motion.h1 
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="text-5xl md:text-[10rem] font-display font-light tracking-tighter leading-[0.85] text-glow"
+          >
+            ONE THIRD <br /> <span className="font-bold">PRODUCTION</span>
+          </motion.h1>
+        </motion.div>
+      </div>
 
-      <motion.div 
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 opacity-20"
-      >
-        <div className="w-[1px] h-12 bg-white" />
-        <span className="text-[9px] uppercase tracking-[0.4em] font-mono">Scroll</span>
-      </motion.div>
     </section>
   );
 };
