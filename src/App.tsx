@@ -368,13 +368,16 @@ const Hero = () => {
   return (
     <section className="relative h-[70vh] md:h-screen w-full overflow-hidden flex items-center">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-black/70 z-10" />
-        <img 
-          src="https://picsum.photos/seed/cinematic/1920/1080" 
-          alt="Hero Background" 
-          className="w-full h-full object-cover scale-110"
-          referrerPolicy="no-referrer"
-        />
+        <div className="absolute inset-0 bg-black/60 z-10" />
+        <div className="absolute inset-0 w-full h-full scale-110">
+          <iframe
+            src="https://player.vimeo.com/video/1182455135?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
+            className="absolute top-1/2 left-1/2 w-[177.77777778vh] min-w-full h-[56.25vw] min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            frameBorder="0"
+            allow="autoplay; fullscreen"
+            title="Hero Background Video"
+          />
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto w-full px-6 md:px-10 relative z-20">
@@ -593,35 +596,24 @@ const OurWork = () => {
                     <img 
                       src={project.thumbnail} 
                       alt={project.title} 
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-700 flex items-center justify-center">
-                      <motion.div 
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        whileHover={{ scale: 1, opacity: 1 }}
-                        className="w-20 h-20 rounded-full bg-brand/90 backdrop-blur-sm flex items-center justify-center text-white shadow-2xl"
-                      >
-                        <Play className="w-8 h-8 fill-current ml-1" />
-                      </motion.div>
-                    </div>
-                    <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                      <span className="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-bold uppercase tracking-widest text-white">
-                        View Project
-                      </span>
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-center justify-center">
+                      <Play className="w-12 h-12 text-white/80" />
                     </div>
                   </div>
                   <div className="px-2">
                     <div className="flex items-center gap-4 mb-4">
-                      <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-brand font-bold">
+                      <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-white/30">
                         {project.category}
                       </span>
                       <div className="h-px w-8 bg-white/10" />
                     </div>
-                    <h4 className="text-2xl md:text-4xl font-display font-bold mb-4 tracking-tight group-hover:text-brand transition-colors duration-500">
+                    <h4 className="text-2xl md:text-4xl font-display font-bold mb-4 tracking-tight group-hover:text-white transition-colors duration-500">
                       {project.title}
                     </h4>
-                    <p className="text-white/40 font-light leading-relaxed text-base md:text-lg max-w-lg line-clamp-2 group-hover:text-white/60 transition-colors duration-500">
+                    <p className="text-white/40 font-light leading-relaxed text-base md:text-lg max-w-lg line-clamp-2">
                       {project.description}
                     </p>
                   </div>
@@ -641,37 +633,24 @@ const OurWork = () => {
               <p className="text-white/30 font-light max-w-md text-base md:text-lg leading-relaxed">Capturing still moments with cinematic precision and artistic vision.</p>
             </div>
             <div className="h-px flex-grow bg-white/5 hidden md:block mx-12 mb-6" />
-            <div className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/20">
-              {PHOTOGRAPHY_IMAGES.length} CAPTURES
-            </div>
           </div>
 
           <div className="columns-1 md:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
             {PHOTOGRAPHY_IMAGES.map((img, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ 
-                  delay: (index % 3) * 0.1, 
-                  duration: 1,
-                  ease: [0.22, 1, 0.36, 1]
-                }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: (index % 3) * 0.1 }}
                 className="break-inside-avoid rounded-2xl md:rounded-[2rem] overflow-hidden group cursor-pointer relative bg-white/5"
               >
                 <img 
                   src={img} 
                   alt={`Photography ${index + 1}`} 
-                  className="w-full h-auto transition-all duration-1000 group-hover:scale-110 group-hover:rotate-1"
+                  className="w-full h-auto transition-transform duration-1000 group-hover:scale-105"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-brand/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay" />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-black/20 backdrop-blur-[2px]">
-                  <div className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center scale-75 group-hover:scale-100 transition-transform duration-500">
-                    <Camera className="w-5 h-5" />
-                  </div>
-                </div>
               </motion.div>
             ))}
           </div>
