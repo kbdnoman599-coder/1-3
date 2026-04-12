@@ -366,7 +366,7 @@ const Hero = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
-    <section className="relative h-[70vh] md:h-screen w-full overflow-hidden flex items-center">
+    <section className="relative h-[70vh] md:h-screen w-full overflow-hidden flex items-end pb-20 md:pb-32">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-black/60 z-10" />
         <div className="absolute inset-0 w-full h-full scale-110">
@@ -397,7 +397,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl md:text-[8rem] font-display font-light tracking-tighter leading-[0.85]"
+            className="text-5xl md:text-[7rem] font-display font-light tracking-tighter leading-[0.85]"
           >
             ONE THIRD <br /> 
             <span className="block mt-2 font-bold text-transparent [text-shadow:0_0_8px_rgba(255,255,255,0.4)] [-webkit-text-stroke:1px_rgba(255,255,255,0.5)]">
