@@ -389,7 +389,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-white/60 mb-10 px-5 py-2.5 border border-white/10 rounded-xl bg-white/5 backdrop-blur-sm"
+            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-white/60 mb-4 px-5 py-1.5 border border-white/10 rounded-sm bg-white/5 backdrop-blur-sm"
           >
             Welcome to
           </motion.span>
@@ -399,7 +399,10 @@ const Hero = () => {
             transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="text-5xl md:text-[10rem] font-display font-light tracking-tighter leading-[0.85] text-glow"
           >
-            ONE THIRD <br /> <span className="font-bold">PRODUCTION</span>
+            ONE THIRD <br /> 
+            <span className="font-bold text-transparent bg-clip-text bg-white/10 backdrop-blur-sm [-webkit-text-stroke:1px_rgba(255,255,255,0.5)]">
+              PRODUCTION
+            </span>
           </motion.h1>
         </motion.div>
       </div>
