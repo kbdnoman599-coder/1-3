@@ -400,7 +400,7 @@ const Hero = () => {
             className="text-5xl md:text-[10rem] font-display font-light tracking-tighter leading-[0.85]"
           >
             ONE THIRD <br /> 
-            <span className="block mt-2 font-bold text-transparent [text-shadow:0_0_10px_rgba(255,255,255,0.7)] [-webkit-text-stroke:1px_rgba(255,255,255,0.5)]">
+            <span className="block mt-2 font-bold text-transparent [text-shadow:0_0_8px_rgba(255,255,255,0.6)] [-webkit-text-stroke:1px_rgba(255,255,255,0.5)]">
               PRODUCTION
             </span>
           </motion.h1>
