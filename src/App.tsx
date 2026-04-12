@@ -208,28 +208,28 @@ const TEAM: TeamMember[] = [
     id: '1',
     name: 'EMZAMUL HAQE',
     role: 'Photographer',
-    image: 'https://picsum.photos/seed/emzamul/400/400',
+    image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/b81711b429acbfb5811d90fa7c4c1a15.jpg',
     quote: 'Emzamul Haqe is a talented photographer for One Third Production. He has a great eye for capturing the perfect moment and telling a story through his images. His photography work helps bring every project to life, documenting events and people with a unique and professional touch.'
   },
   {
     id: '2',
     name: 'MD IBRAHIM KHALIL',
     role: 'Cinematographer',
-    image: 'https://picsum.photos/seed/ibrahim/400/400',
+    image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/098df0b7547226b5b98b93caba682bd4.jpg',
     quote: 'MD IBRAHIM KHALIL is the talented Cinematographer at One Third Production. With a keen eye for visual storytelling, he is an expert at capturing the heart of every story. His work brings projects to life with dynamic and professional visuals, ensuring every frame is crafted to perfection.'
   },
   {
     id: '3',
     name: 'SHAHRIAR SHOMRAT',
     role: 'Drone Pilot',
-    image: 'https://picsum.photos/seed/shomrat/400/400',
+    image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/9646f6dbfb325f4e7771f4b6facd64c9.jpg',
     quote: 'As a certified drone pilot for One Third Production, Shahriar Shomrat provides a unique and dynamic perspective to every project. His expertise in aerial cinematography allows him to capture stunning, professional footage from above, adding a cinematic touch that elevates the entire production.'
   },
   {
     id: '4',
     name: 'SHADMAN TASIN',
     role: 'Head of Operations',
-    image: 'https://picsum.photos/seed/tasin/400/400',
+    image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/0a528865f5998c454abfda7de50615f2.jpg',
     quote: 'As the Head of Operations at One Third Production, Shadman Tasin is the driving force behind the company\'s seamless execution of projects. He ensures that all productions run efficiently, on time, and within budget, overseeing the logistics and operational aspects that are crucial to the success of every project.'
   }
 ];
@@ -369,6 +369,7 @@ const Hero = () => {
     <section className="relative h-[60vh] md:h-screen w-full overflow-hidden flex items-end pb-12 md:pb-20">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-black/60 z-10" />
+        <div className="absolute inset-0 glare-overlay z-10" />
         <div className="absolute inset-0 w-full h-full scale-110">
           <iframe
             src="https://player.vimeo.com/video/1182455135?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
@@ -389,7 +390,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-white/60 mb-4 px-5 py-1.5 border border-white/10 rounded-sm bg-white/5 backdrop-blur-sm"
+            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-white/60 mb-4 px-5 py-1.5 border border-white/10 rounded-sm bg-white/5 backdrop-blur-sm glare-text animate-glare-border"
           >
             Welcome to
           </motion.span>
@@ -399,8 +400,8 @@ const Hero = () => {
             transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="text-5xl md:text-[7rem] font-display font-light tracking-tighter leading-[0.85]"
           >
-            ONE THIRD <br /> 
-            <span className="block mt-2 font-bold text-transparent [text-shadow:0_0_8px_rgba(255,255,255,0.4)] [-webkit-text-stroke:1px_rgba(255,255,255,0.5)]">
+            <span className="glare-text inline-block [-webkit-text-stroke:0.5px_rgba(255,255,255,0.3)]">ONE THIRD</span> <br /> 
+            <span className="block mt-2 font-bold text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.5)] glare-text animate-pulse-glow">
               PRODUCTION
             </span>
           </motion.h1>
