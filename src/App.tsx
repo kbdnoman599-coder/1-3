@@ -366,7 +366,7 @@ const Hero = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
-    <section className="relative h-[70vh] md:h-screen w-full overflow-hidden flex items-end pb-20 md:pb-32">
+    <section className="relative h-[60vh] md:h-screen w-full overflow-hidden flex items-end pb-12 md:pb-20">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-black/60 z-10" />
         <div className="absolute inset-0 w-full h-full scale-110">
