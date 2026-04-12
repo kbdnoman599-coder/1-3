@@ -390,7 +390,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-white/60 mb-4 px-5 py-1.5 border border-white/10 rounded-sm bg-white/5 backdrop-blur-sm glare-text animate-glare-border"
+            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-white/60 mb-4 px-5 py-1.5 border border-white/10 rounded-sm bg-white/5 backdrop-blur-sm glare-text-full animate-glare-border"
           >
             Welcome to
           </motion.span>
@@ -400,8 +400,8 @@ const Hero = () => {
             transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="text-5xl md:text-[7rem] font-display font-light tracking-tighter leading-[0.85]"
           >
-            <span className="glare-text inline-block [-webkit-text-stroke:0.5px_rgba(255,255,255,0.3)]">ONE THIRD</span> <br /> 
-            <span className="block mt-2 font-bold text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.5)] glare-text animate-pulse-glow">
+            <span className="glare-text-full inline-block [-webkit-text-stroke:0.5px_rgba(255,255,255,0.3)]">ONE THIRD</span> <br /> 
+            <span className="block mt-2 font-bold text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.5)] glare-text-dim animate-pulse-glow">
               PRODUCTION
             </span>
           </motion.h1>

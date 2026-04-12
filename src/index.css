@@ -55,20 +55,36 @@
     animation: pulse-glow 3s infinite ease-in-out;
   }
 
-  .glare-text {
+  .glare-text-full {
     background: linear-gradient(
       90deg,
-      rgba(255,255,255,0.6) 0%,
-      rgba(255,255,255,0.6) 45%,
+      rgba(255,255,255,0.8) 0%,
+      rgba(255,255,255,0.8) 45%,
       rgba(255,255,255,1) 50%,
-      rgba(255,255,255,0.6) 55%,
-      rgba(255,255,255,0.6) 100%
+      rgba(255,255,255,0.8) 55%,
+      rgba(255,255,255,0.8) 100%
     );
     background-size: 300% 100%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: glare 4s infinite linear;
+    animation: glare 8s infinite linear;
+  }
+
+  .glare-text-dim {
+    background: linear-gradient(
+      90deg,
+      rgba(255,255,255,0.3) 0%,
+      rgba(255,255,255,0.3) 45%,
+      rgba(255,255,255,1) 50%,
+      rgba(255,255,255,0.3) 55%,
+      rgba(255,255,255,0.3) 100%
+    );
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: glare 8s infinite linear;
   }
 
   .glare-overlay {
