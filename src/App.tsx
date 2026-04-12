@@ -17,6 +17,7 @@ import {
   Linkedin, 
   Twitter,
   MessageCircle,
+  Calendar,
   X
 } from 'lucide-react';
 
@@ -414,7 +415,6 @@ const About = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-black/30 mb-8 md:mb-12 block">About Us</span>
           <h2 className="text-4xl md:text-7xl font-display font-light mb-8 md:mb-12 leading-[1.1] text-black tracking-tight">
             Step into the <br /> <span className="font-bold italic">suspenseful</span> world
           </h2>
@@ -453,7 +453,7 @@ const About = () => {
 const Approach = () => {
   return (
     <section className="py-24 md:py-48 px-6 bg-black border-y border-white/5">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-32 items-start">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-32 items-start">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -470,7 +470,7 @@ const Approach = () => {
             />
           </div>
           <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 tracking-tight">Tarek bin zihad</h3>
-          <p className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/30 mb-8 md:mb-12">CO-FOUNDER</p>
+          <p className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/30 mb-8">CO-FOUNDER</p>
           <div className="w-16 h-px bg-white/10" />
         </motion.div>
 
@@ -481,7 +481,6 @@ const Approach = () => {
           transition={{ delay: 0.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="lg:col-span-2 space-y-8 md:space-y-12"
         >
-          <h4 className="text-[10px] font-mono tracking-[0.5em] uppercase text-white/20">My approach</h4>
           <p className="text-3xl md:text-6xl font-display font-light leading-[1.1] tracking-tight text-white/90">
             At One Third, we have a bunch of <span className="font-bold italic">creative</span> members.
           </p>
@@ -507,7 +506,6 @@ const Services = () => {
     <section id="services" className="py-24 md:py-48 px-6 bg-white text-black">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:mb-32">
-          <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-black/30 mb-8 block">Expertise</span>
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Our Services</h2>
         </div>
         
@@ -550,7 +548,6 @@ const OurWork = () => {
     <section id="work" className="py-24 md:py-48 px-6 bg-black">
       <div className="max-w-7xl mx-auto">
         <div className="mb-24 md:mb-48">
-          <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/30 mb-8 block">Portfolio</span>
           <h2 className="text-5xl md:text-[10rem] font-display font-light tracking-tighter leading-[0.85]">Our Work</h2>
         </div>
 
@@ -700,7 +697,6 @@ const Team = () => {
     <section id="people" className="py-24 md:py-48 px-6 bg-white text-black">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:mb-32">
-          <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-black/30 mb-8 block">The Team</span>
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Core Team</h2>
         </div>
 
@@ -740,7 +736,6 @@ const Clients = () => {
     <section id="clients" className="py-24 md:py-48 px-6 bg-black">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:mb-32">
-          <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/30 mb-8 block">Partnerships</span>
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Our Clients</h2>
         </div>
 
@@ -773,7 +768,6 @@ const Contact = () => {
     <section id="contact" className="py-24 md:py-48 px-6 bg-white text-black">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32">
         <div>
-          <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-black/30 mb-8 md:mb-12 block">Contact</span>
           <h2 className="text-5xl md:text-8xl font-display font-light leading-[0.9] tracking-tighter mb-12 md:mb-16">
             Let's create <br /> <span className="font-bold italic">together.</span>
           </h2>
@@ -909,18 +903,96 @@ const Footer = () => {
   );
 };
 
-const WhatsAppButton = () => {
+const FloatingContactWidget = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [showLabel, setShowLabel] = useState(false);
+
+  useEffect(() => {
+    // Show label after 2 seconds, hide after 6 seconds
+    const showTimer = setTimeout(() => setShowLabel(true), 2000);
+    const hideTimer = setTimeout(() => setShowLabel(false), 8000);
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
+  }, []);
+
+  const actions = [
+    { id: 'book', icon: Calendar, label: 'Book Now', href: '#contact', color: 'bg-white text-black' },
+    { id: 'call', icon: Phone, label: 'Call Us', href: 'tel:01740509336', color: 'bg-white text-black' },
+    { id: 'chat', icon: MessageCircle, label: 'Live Chat', href: 'https://wa.me/01740509336', color: 'bg-[#25D366] text-white' },
+    { id: 'mail', icon: Mail, label: 'Email Us', href: 'mailto:kbdnoman599@gmail.com', color: 'bg-white text-black' },
+  ];
+
   return (
-    <motion.a
-      href="https://wa.me/01740509336"
-      target="_blank"
-      rel="noopener noreferrer"
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      className="fixed bottom-8 right-8 z-[90] w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl shadow-green-500/20"
-    >
-      <MessageCircle className="w-8 h-8 text-white" />
-    </motion.a>
+    <div className="fixed bottom-8 right-8 z-[90] flex flex-col items-center gap-4">
+      <AnimatePresence>
+        {isExpanded && (
+          <div className="flex flex-col items-center gap-4 mb-2">
+            {actions.map((action, index) => (
+              <motion.a
+                key={action.id}
+                href={action.href}
+                initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.8 }}
+                transition={{ delay: (actions.length - index) * 0.05 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className={`w-12 h-12 ${action.color} rounded-full flex items-center justify-center shadow-xl group relative`}
+              >
+                <action.icon className="w-5 h-5" />
+                <span className="absolute right-full mr-4 px-3 py-1.5 bg-black text-white text-[9px] font-bold uppercase tracking-widest rounded-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-white/10">
+                  {action.label}
+                </span>
+              </motion.a>
+            ))}
+          </div>
+        )}
+      </AnimatePresence>
+
+      <motion.button
+        onClick={() => setIsExpanded(!isExpanded)}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`w-16 h-16 ${isExpanded ? 'bg-black text-white border border-white/10' : 'bg-white text-black'} rounded-full flex items-center justify-center shadow-2xl transition-colors duration-300 group`}
+      >
+        <motion.div
+          animate={{ rotate: isExpanded ? 45 : 0 }}
+          transition={{ type: 'spring', damping: 20 }}
+        >
+          {isExpanded ? <X className="w-8 h-8" /> : <MessageCircle className="w-8 h-8" />}
+        </motion.div>
+        <AnimatePresence>
+          {!isExpanded && (showLabel || isExpanded) && (
+            <motion.span
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="absolute right-full mr-4 px-4 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest rounded-full whitespace-nowrap pointer-events-none shadow-xl overflow-hidden"
+            >
+              Contact Us
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: '200%' }}
+                transition={{ 
+                  repeat: Infinity, 
+                  duration: 1.5, 
+                  repeatDelay: 1,
+                  ease: "linear" 
+                }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-12"
+              />
+            </motion.span>
+          )}
+        </AnimatePresence>
+        {!isExpanded && !showLabel && (
+          <span className="absolute right-full mr-4 px-4 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest rounded-full opacity-0 md:group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
+            Contact Us
+          </span>
+        )}
+      </motion.button>
+    </div>
   );
 };
 
@@ -943,7 +1015,7 @@ export default function App() {
       </main>
 
       <Footer />
-      <WhatsAppButton />
+      <FloatingContactWidget />
     </div>
   );
 }
