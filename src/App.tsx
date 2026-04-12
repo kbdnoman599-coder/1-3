@@ -284,8 +284,8 @@ const Navbar = () => {
       >
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <div className="w-8 h-8 bg-white flex items-center justify-center rounded-full">
-              <span className="text-black font-display font-bold text-sm">1/3</span>
+            <div className="w-8 h-8 bg-brand flex items-center justify-center rounded-full">
+              <span className="text-white font-display font-bold text-sm">1/3</span>
             </div>
             <span className="font-display font-medium tracking-tight text-lg hidden sm:block">
               ONE THIRD
@@ -305,7 +305,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="hidden sm:block px-8 py-3 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500">
+            <button className="hidden sm:block px-8 py-3 border border-brand/20 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand hover:text-white transition-all duration-500 text-brand">
               Inquiry
             </button>
             <button 
@@ -547,7 +547,7 @@ const OurWork = () => {
   return (
     <section id="work" className="py-24 md:py-48 px-6 bg-black">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-24 md:mb-48">
+        <div className="mb-12 md:mb-24">
           <h2 className="text-5xl md:text-[10rem] font-display font-light tracking-tighter leading-[0.85]">Our Work</h2>
         </div>
 
@@ -575,36 +575,53 @@ const OurWork = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-32">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
                   layout
                   initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
                   onClick={() => setSelectedProject(project)}
                   className="group cursor-pointer"
                 >
-                  <div className="aspect-video rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 md:mb-12 relative">
+                  <div className="aspect-video rounded-2xl md:rounded-[2.5rem] overflow-hidden mb-8 md:mb-10 relative">
                     <img 
                       src={project.thumbnail} 
                       alt={project.title} 
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700" />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-700 flex items-center justify-center">
+                      <motion.div 
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        whileHover={{ scale: 1, opacity: 1 }}
+                        className="w-20 h-20 rounded-full bg-brand/90 backdrop-blur-sm flex items-center justify-center text-white shadow-2xl"
+                      >
+                        <Play className="w-8 h-8 fill-current ml-1" />
+                      </motion.div>
+                    </div>
+                    <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                      <span className="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-bold uppercase tracking-widest text-white">
+                        View Project
+                      </span>
+                    </div>
                   </div>
-                  <div className="px-2 md:px-4">
-                    <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-white/30 mb-3 md:mb-4 block">
-                      {project.category}
-                    </span>
-                    <h4 className="text-2xl md:text-4xl font-display font-bold mb-4 md:mb-6 group-hover:text-white/70 transition-colors">
+                  <div className="px-2">
+                    <div className="flex items-center gap-4 mb-4">
+                      <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-brand font-bold">
+                        {project.category}
+                      </span>
+                      <div className="h-px w-8 bg-white/10" />
+                    </div>
+                    <h4 className="text-2xl md:text-4xl font-display font-bold mb-4 tracking-tight group-hover:text-brand transition-colors duration-500">
                       {project.title}
                     </h4>
-                    <p className="text-white/40 font-light leading-relaxed text-base md:text-lg max-w-lg">
+                    <p className="text-white/40 font-light leading-relaxed text-base md:text-lg max-w-lg line-clamp-2 group-hover:text-white/60 transition-colors duration-500">
                       {project.description}
                     </p>
                   </div>
@@ -618,27 +635,43 @@ const OurWork = () => {
 
         {/* Photography Sub-section */}
         <div id="photography">
-          <div className="mb-12 md:mb-24">
-            <h3 className="text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6">Photography</h3>
-            <p className="text-white/30 font-light max-w-md text-base md:text-lg leading-relaxed">Capturing still moments with cinematic precision and artistic vision.</p>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-8 md:gap-12">
+            <div>
+              <h3 className="text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6">Photography</h3>
+              <p className="text-white/30 font-light max-w-md text-base md:text-lg leading-relaxed">Capturing still moments with cinematic precision and artistic vision.</p>
+            </div>
+            <div className="h-px flex-grow bg-white/5 hidden md:block mx-12 mb-6" />
+            <div className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/20">
+              {PHOTOGRAPHY_IMAGES.length} CAPTURES
+            </div>
           </div>
 
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 md:gap-12 space-y-6 md:space-y-12">
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
             {PHOTOGRAPHY_IMAGES.map((img, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.8 }}
-                className="break-inside-avoid rounded-2xl md:rounded-3xl overflow-hidden group cursor-pointer"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ 
+                  delay: (index % 3) * 0.1, 
+                  duration: 1,
+                  ease: [0.22, 1, 0.36, 1]
+                }}
+                className="break-inside-avoid rounded-2xl md:rounded-[2rem] overflow-hidden group cursor-pointer relative bg-white/5"
               >
                 <img 
                   src={img} 
                   alt={`Photography ${index + 1}`} 
-                  className="w-full h-auto transition-transform duration-1000 group-hover:scale-105"
+                  className="w-full h-auto transition-all duration-1000 group-hover:scale-110 group-hover:rotate-1"
                   referrerPolicy="no-referrer"
                 />
+                <div className="absolute inset-0 bg-brand/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-black/20 backdrop-blur-[2px]">
+                  <div className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center scale-75 group-hover:scale-100 transition-transform duration-500">
+                    <Camera className="w-5 h-5" />
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -848,8 +881,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-24 mb-24 md:mb-32">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-4 mb-8 md:mb-12">
-              <div className="w-8 h-8 bg-white flex items-center justify-center rounded-full">
-                <span className="text-black font-display font-bold text-sm">1/3</span>
+              <div className="w-8 h-8 bg-brand flex items-center justify-center rounded-full">
+                <span className="text-white font-display font-bold text-sm">1/3</span>
               </div>
               <span className="font-display font-medium tracking-tight text-xl">
                 ONE THIRD
@@ -955,7 +988,7 @@ const FloatingContactWidget = () => {
         onClick={() => setIsExpanded(!isExpanded)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`w-16 h-16 ${isExpanded ? 'bg-black text-white border border-white/10' : 'bg-white text-black'} rounded-full flex items-center justify-center shadow-2xl transition-colors duration-300 group`}
+        className={`w-16 h-16 ${isExpanded ? 'bg-black text-white border border-white/10' : 'bg-brand text-white'} rounded-full flex items-center justify-center shadow-2xl transition-colors duration-300 group`}
       >
         <motion.div
           animate={{ rotate: isExpanded ? 45 : 0 }}
@@ -969,7 +1002,7 @@ const FloatingContactWidget = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 10 }}
-              className="absolute right-full mr-4 px-4 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest rounded-full whitespace-nowrap pointer-events-none shadow-xl overflow-hidden"
+              className="absolute right-full mr-4 px-4 py-2 bg-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-full whitespace-nowrap pointer-events-none shadow-xl overflow-hidden"
             >
               Contact Us
               <motion.div
@@ -981,13 +1014,13 @@ const FloatingContactWidget = () => {
                   repeatDelay: 1,
                   ease: "linear" 
                 }}
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-12"
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12"
               />
             </motion.span>
           )}
         </AnimatePresence>
         {!isExpanded && !showLabel && (
-          <span className="absolute right-full mr-4 px-4 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest rounded-full opacity-0 md:group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
+          <span className="absolute right-full mr-4 px-4 py-2 bg-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-full opacity-0 md:group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
             Contact Us
           </span>
         )}

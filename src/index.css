@@ -5,6 +5,7 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Outfit", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-brand: #751004;
 }
 
 @layer base {
@@ -27,7 +28,7 @@
 
 @layer utilities {
   .glass {
-    @apply backdrop-blur-2xl bg-white/5 border border-white/5;
+    @apply backdrop-blur-xl;
   }
   
   .text-glow {
