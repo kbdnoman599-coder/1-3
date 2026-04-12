@@ -284,12 +284,12 @@ const Navbar = () => {
       >
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <div className="w-8 h-8 bg-brand flex items-center justify-center rounded-full">
-              <span className="text-white font-display font-bold text-sm">1/3</span>
-            </div>
-            <span className="font-display font-medium tracking-tight text-lg hidden sm:block">
-              ONE THIRD
-            </span>
+            <img 
+              src="https://i.postimg.cc/hGrCX0q4/file-0000000084d87208a305a911b218e98b.png" 
+              alt="One Third Production Logo" 
+              className="h-8 md:h-10 w-auto object-contain"
+              referrerPolicy="no-referrer"
+            />
           </div>
           
           <div className="hidden md:flex items-center gap-12 text-[10px] font-mono tracking-[0.3em] uppercase text-white/40">
@@ -390,7 +390,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-white/60 mb-4 px-5 py-1.5 border border-white/10 rounded-sm bg-white/5 backdrop-blur-sm glare-text-full animate-glare-border"
+            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-white mb-4 px-5 py-1.5 border border-brand/20 rounded-sm bg-brand/20 backdrop-blur-md glare-text-full animate-glare-border"
           >
             Welcome to
           </motion.span>
@@ -864,12 +864,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-24 mb-24 md:mb-32">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-4 mb-8 md:mb-12">
-              <div className="w-8 h-8 bg-brand flex items-center justify-center rounded-full">
-                <span className="text-white font-display font-bold text-sm">1/3</span>
-              </div>
-              <span className="font-display font-medium tracking-tight text-xl">
-                ONE THIRD
-              </span>
+              <img 
+                src="https://i.postimg.cc/hGrCX0q4/file-0000000084d87208a305a911b218e98b.png" 
+                alt="One Third Production Logo" 
+                className="h-10 md:h-12 w-auto object-contain"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <p className="text-white/30 font-light max-w-xs text-base md:text-lg leading-relaxed">
               Capturing the most powerful part of every story. Bangladesh-based media production house.
