@@ -1190,54 +1190,56 @@ const FloatingContactWidget = () => {
         )}
       </AnimatePresence>
 
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className={`w-16 h-16 ${isOpen ? 'bg-black text-white border border-white/10' : 'bg-brand text-white'} rounded-full flex items-center justify-center shadow-2xl transition-colors duration-300 group`}
-      >
-        <motion.div
-          animate={{ rotate: isOpen ? 45 : 0 }}
-          transition={{ type: 'spring', damping: 20 }}
+      <div className="fixed bottom-8 right-8 z-[90] flex flex-col items-center gap-4">
+        <motion.button
+          onClick={() => setIsOpen(!isOpen)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className={`w-16 h-16 ${isOpen ? 'bg-black text-white border border-white/10' : 'bg-brand text-white'} rounded-full flex items-center justify-center shadow-2xl transition-colors duration-300 group`}
         >
-          {isOpen ? <X className="w-8 h-8" /> : <MessageCircle className="w-8 h-8" />}
-        </motion.div>
-        <AnimatePresence>
-          {!isOpen && showLabel && (
-            <motion.span
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 10 }}
-              className="absolute right-full mr-4 px-4 py-2 bg-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-full whitespace-nowrap pointer-events-none shadow-xl overflow-hidden"
-            >
+          <motion.div
+            animate={{ rotate: isOpen ? 45 : 0 }}
+            transition={{ type: 'spring', damping: 20 }}
+          >
+            {isOpen ? <X className="w-8 h-8" /> : <MessageCircle className="w-8 h-8" />}
+          </motion.div>
+          <AnimatePresence>
+            {!isOpen && showLabel && (
+              <motion.span
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 10 }}
+                className="absolute right-full mr-4 px-4 py-2 bg-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-full whitespace-nowrap pointer-events-none shadow-xl overflow-hidden"
+              >
+                Contact Us
+                <motion.div
+                  initial={{ x: '-100%' }}
+                  animate={{ x: '200%' }}
+                  transition={{ 
+                    repeat: Infinity, 
+                    duration: 1.5, 
+                    repeatDelay: 1,
+                    ease: "linear" 
+                  }}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12"
+                />
+              </motion.span>
+            )}
+          </AnimatePresence>
+          {!isOpen && !showLabel && (
+            <span className="absolute right-full mr-4 px-4 py-2 bg-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-full opacity-0 md:group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
               Contact Us
-              <motion.div
-                initial={{ x: '-100%' }}
-                animate={{ x: '200%' }}
-                transition={{ 
-                  repeat: Infinity, 
-                  duration: 1.5, 
-                  repeatDelay: 1,
-                  ease: "linear" 
-                }}
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12"
-              />
-            </motion.span>
+            </span>
           )}
-        </AnimatePresence>
-        {!isOpen && !showLabel && (
-          <span className="absolute right-full mr-4 px-4 py-2 bg-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-full opacity-0 md:group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
-            Contact Us
-          </span>
-        )}
-      </motion.button>
+        </motion.button>
+      </div>
     </>
   );
 };
 
 export default function App() {
   return (
-    <div className="relative min-h-screen font-sans selection:bg-white selection:text-black">
+    <div className="relative min-h-screen font-sans selection:bg-brand selection:text-white">
       <div className="grain-overlay" />
       <CustomCursor />
       <Navbar />
