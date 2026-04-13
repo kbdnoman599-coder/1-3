@@ -92,6 +92,10 @@
     pointer-events: none;
   }
 
+  .logo-white {
+    filter: brightness(0) invert(1);
+  }
+
   @keyframes glare-border {
     0% { border-color: rgba(117, 16, 4, 0.2); }
     50% { border-color: rgba(117, 16, 4, 0.8); }

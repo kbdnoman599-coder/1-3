@@ -287,7 +287,7 @@ const Navbar = () => {
             <img 
               src="https://i.postimg.cc/hGrCX0q4/file-0000000084d87208a305a911b218e98b.png" 
               alt="One Third Production Logo" 
-              className="h-8 md:h-10 w-auto object-contain"
+              className={`h-8 md:h-10 w-auto object-contain transition-all duration-700 ${!isScrolled ? 'logo-white' : ''}`}
               referrerPolicy="no-referrer"
             />
           </div>
@@ -867,7 +867,7 @@ const Footer = () => {
               <img 
                 src="https://i.postimg.cc/hGrCX0q4/file-0000000084d87208a305a911b218e98b.png" 
                 alt="One Third Production Logo" 
-                className="h-10 md:h-12 w-auto object-contain"
+                className="h-10 md:h-12 w-auto object-contain logo-white"
                 referrerPolicy="no-referrer"
               />
             </div>
