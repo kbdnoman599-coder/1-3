@@ -613,7 +613,7 @@ const OurWork = () => {
         </div>
 
         {/* Videography Sub-section */}
-        <div className="mb-32 md:mb-64">
+        <div className="mb-20 md:mb-32">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-8 md:gap-12">
             <div>
               <h3 className="text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6">Videography</h3>
@@ -794,7 +794,7 @@ const OurWork = () => {
           </div>
         </div>
 
-        <div className="h-px w-full bg-white/5 mb-32 md:mb-64" />
+        <div className="h-px w-full bg-white/20 mb-20 md:mb-32" />
 
         {/* Photography Sub-section */}
         <div id="photography">
@@ -803,27 +803,45 @@ const OurWork = () => {
               <h3 className="text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6">Photography</h3>
               <p className="text-white/30 font-light max-w-md text-base md:text-lg leading-relaxed">Capturing still moments with cinematic precision and artistic vision.</p>
             </div>
-            <div className="h-px flex-grow bg-white/5 hidden md:block mx-12 mb-6" />
+            <div className="h-px flex-grow bg-white/20 hidden md:block mx-12 mb-6" />
           </div>
 
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
-            {PHOTOGRAPHY_IMAGES.map((img, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: (index % 3) * 0.1 }}
-                className="break-inside-avoid rounded-2xl md:rounded-[2rem] overflow-hidden group cursor-pointer relative bg-white/5"
-              >
-                <img 
-                  src={img} 
-                  alt={`Photography ${index + 1}`} 
-                  className="w-full h-auto transition-transform duration-1000 group-hover:scale-105"
-                  referrerPolicy="no-referrer"
-                />
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+            {PHOTOGRAPHY_IMAGES.map((img, index) => {
+              // Bento logic for mobile (index-based spans)
+              const bentoClasses = [
+                "col-span-2 row-span-1", // 0: Large wide
+                "col-span-1 row-span-1", // 1: Small
+                "col-span-1 row-span-2", // 2: Tall
+                "col-span-1 row-span-1", // 3: Small
+                "col-span-2 row-span-1", // 4: Wide
+                "col-span-1 row-span-1", // 5: Small
+                "col-span-1 row-span-1", // 6: Small
+                "col-span-2 row-span-1", // 7: Wide
+                "col-span-1 row-span-1", // 8: Small
+                "col-span-1 row-span-1", // 9: Small
+              ];
+              
+              const mobileClass = bentoClasses[index % bentoClasses.length];
+
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: (index % 3) * 0.1 }}
+                  className={`${mobileClass} md:col-span-1 md:row-span-1 rounded-xl md:rounded-[2rem] overflow-hidden group cursor-pointer relative bg-white/5 h-full`}
+                >
+                  <img 
+                    src={img} 
+                    alt={`Photography ${index + 1}`} 
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    referrerPolicy="no-referrer"
+                  />
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
