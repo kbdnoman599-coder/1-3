@@ -397,17 +397,85 @@ const Navbar = () => {
   );
 };
 
-const Hero = () => {
+const Preloader = ({ isLoading }: { isLoading: boolean }) => {
+  return (
+    <AnimatePresence>
+      {isLoading && (
+        <motion.div
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="fixed inset-0 z-[9999] bg-dark flex flex-col items-center justify-center"
+        >
+          <div className="relative flex flex-col items-center">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ 
+                duration: 1.5, 
+                ease: [0.22, 1, 0.36, 1],
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            >
+              <img 
+                src="https://i.postimg.cc/hGrCX0q4/file-0000000084d87208a305a911b218e98b.png" 
+                alt="Loading Logo" 
+                className="h-16 md:h-24 w-auto object-contain logo-white"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+            
+            <div className="mt-12 w-48 h-[1px] bg-white/10 relative overflow-hidden">
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: "100%" }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+                className="absolute inset-0 bg-brand w-1/2"
+              />
+            </div>
+            
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-6 text-[9px] font-mono tracking-[0.6em] uppercase text-white/30"
+            >
+              Loading Cinematic Experience
+            </motion.p>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
+  const handleVideoLoad = () => {
+    // Set video opacity to 1 immediately so it's ready behind the preloader
+    setIsVideoLoaded(true);
+    
+    // Wait a small buffer (500ms) to ensure the video has actually started playing
+    // before we signal the preloader to fade out.
+    setTimeout(() => {
+      onVideoLoad();
+    }, 800);
+  };
+
   return (
     <section className="relative h-[60vh] md:h-screen w-full overflow-hidden flex items-end pb-12 md:pb-20" data-theme="dark">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-dark/60 z-10" />
-        <div className="absolute inset-0 glare-overlay z-10" />
+        <div className="absolute inset-0 bg-dark/40 z-10" />
+        <div className="absolute inset-0 glare-overlay opacity-50 z-10" />
         
         {/* Static Placeholder Image - Shows immediately */}
         <div 
@@ -418,14 +486,14 @@ const Hero = () => {
           }}
         />
 
-        <div className={`absolute inset-0 w-full h-full scale-110 transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`absolute inset-0 w-full h-full scale-105 transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
           <iframe
-            src="https://player.vimeo.com/video/1182455135?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
+            src="https://player.vimeo.com/video/1182455135?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&quality=1080p"
             className="absolute top-1/2 left-1/2 w-[177.77777778vh] min-w-full h-[56.25vw] min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
             frameBorder="0"
             allow="autoplay; fullscreen"
             title="Hero Background Video"
-            onLoad={() => setIsVideoLoaded(true)}
+            onLoad={handleVideoLoad}
           />
         </div>
       </div>
@@ -870,7 +938,7 @@ const OurWork = () => {
               
               <div className="aspect-video w-full bg-white/5">
                 <iframe 
-                  src={selectedProject.videoUrl} 
+                  src={`${selectedProject.videoUrl}${selectedProject.videoUrl.includes('?') ? '&' : '?'}vq=hd1080&quality=1080p`} 
                   className="w-full h-full"
                   allowFullScreen
                 />
@@ -1241,14 +1309,25 @@ const FloatingContactWidget = () => {
 };
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Safety timeout for preloader
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000); // Max 5 seconds
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="relative min-h-screen font-sans selection:bg-brand selection:text-white">
+      <Preloader isLoading={isLoading} />
       <div className="grain-overlay" />
       <CustomCursor />
       <Navbar />
       
       <main>
-        <Hero />
+        <Hero onVideoLoad={() => setIsLoading(false)} />
         <About />
         <Approach />
         <Services />
