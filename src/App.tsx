@@ -399,19 +399,31 @@ const Hero = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   return (
     <section className="relative h-[60vh] md:h-screen w-full overflow-hidden flex items-end pb-12 md:pb-20" data-theme="dark">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-black/60 z-10" />
         <div className="absolute inset-0 glare-overlay z-10" />
-        <div className="absolute inset-0 w-full h-full scale-110">
+        
+        {/* Static Placeholder Image - Shows immediately */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+          style={{ 
+            backgroundImage: 'url(https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070&auto=format&fit=crop)',
+            opacity: isVideoLoaded ? 0 : 1 
+          }}
+        />
+
+        <div className={`absolute inset-0 w-full h-full scale-110 transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
           <iframe
             src="https://player.vimeo.com/video/1182455135?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
             className="absolute top-1/2 left-1/2 w-[177.77777778vh] min-w-full h-[56.25vw] min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
             frameBorder="0"
             allow="autoplay; fullscreen"
             title="Hero Background Video"
+            onLoad={() => setIsVideoLoaded(true)}
           />
         </div>
       </div>
