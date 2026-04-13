@@ -1044,57 +1044,59 @@ const Contact = () => {
 
 const Footer = () => {
   return (
-    <footer className="py-24 md:py-32 px-6 md:px-10 border-t border-white/5 bg-black" data-theme="dark">
+    <footer className="py-16 md:py-32 px-6 md:px-10 border-t border-white/5 bg-black" data-theme="dark">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-24 mb-24 md:mb-32">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-24 mb-16 md:mb-32">
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-4 mb-8 md:mb-12">
+            <div className="flex items-center gap-4 mb-6 md:mb-12">
               <img 
                 src="https://i.postimg.cc/hGrCX0q4/file-0000000084d87208a305a911b218e98b.png" 
                 alt="One Third Production Logo" 
-                className="h-10 md:h-12 w-auto object-contain logo-white"
+                className="h-8 md:h-12 w-auto object-contain logo-white"
                 referrerPolicy="no-referrer"
               />
             </div>
-            <p className="text-white/30 font-light max-w-xs text-base md:text-lg leading-relaxed">
+            <p className="text-white/50 font-light max-w-xs text-sm md:text-lg leading-relaxed">
               Capturing the most powerful part of every story. Bangladesh-based media production house.
             </p>
           </div>
           
-          <div>
-            <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20 mb-8 md:mb-12">Navigation</h4>
-            <ul className="space-y-4 md:space-y-6 text-sm font-light text-white/40">
-              {['Work', 'About', 'Services', 'People', 'Contact'].map(item => (
-                <li key={item}><a href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors duration-500">{item}</a></li>
-              ))}
-            </ul>
-          </div>
+          <div className="grid grid-cols-2 gap-8 md:contents">
+            <div className="order-2 md:order-1">
+              <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/30 mb-6 md:mb-12">Navigation</h4>
+              <ul className="space-y-3 md:space-y-6 text-sm font-light text-white/50">
+                {['Work', 'About', 'Services', 'People', 'Contact'].map(item => (
+                  <li key={item}><a href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors duration-500">{item}</a></li>
+                ))}
+              </ul>
+            </div>
 
-          <div>
-            <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20 mb-8 md:mb-12">Social</h4>
-            <div className="flex flex-col gap-4 md:gap-6">
-              {[
-                { name: 'Instagram', icon: Instagram },
-                { name: 'Facebook', icon: Facebook },
-                { name: 'Linkedin', icon: Linkedin },
-                { name: 'Twitter', icon: Twitter }
-              ].map((social) => (
-                <a key={social.name} href="#" className="flex items-center gap-4 text-sm text-white/40 hover:text-white transition-all duration-500 group">
-                  <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                    <social.icon className="w-3 h-3" />
-                  </div>
-                  <span className="font-light tracking-wide">{social.name}</span>
-                </a>
-              ))}
+            <div className="order-1 md:order-2">
+              <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/30 mb-6 md:mb-12">Social</h4>
+              <div className="flex flex-col gap-3 md:gap-6">
+                {[
+                  { name: 'Instagram', icon: Instagram },
+                  { name: 'Facebook', icon: Facebook },
+                  { name: 'Linkedin', icon: Linkedin },
+                  { name: 'Twitter', icon: Twitter }
+                ].map((social) => (
+                  <a key={social.name} href="#" className="flex items-center gap-4 text-sm text-white/50 hover:text-white transition-all duration-500 group">
+                    <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                      <social.icon className="w-3 h-3" />
+                    </div>
+                    <span className="font-light tracking-wide hidden sm:inline">{social.name}</span>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center pt-12 md:pt-16 border-t border-white/5 gap-6 md:gap-8">
-          <p className="text-[9px] font-mono uppercase tracking-[0.4em] text-white/10 text-center md:text-left">
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 md:pt-16 border-t border-white/5 gap-6 md:gap-8">
+          <p className="text-[9px] font-mono uppercase tracking-[0.4em] text-white/20 text-center md:text-left">
             © 2026 One Third Production.
           </p>
-          <div className="flex gap-8 md:gap-12 text-[9px] font-mono uppercase tracking-[0.4em] text-white/10">
+          <div className="flex gap-8 md:gap-12 text-[9px] font-mono uppercase tracking-[0.4em] text-white/20">
             <a href="#" className="hover:text-white transition-colors">Privacy</a>
             <a href="#" className="hover:text-white transition-colors">Terms</a>
           </div>
