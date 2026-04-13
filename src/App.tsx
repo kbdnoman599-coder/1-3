@@ -304,7 +304,7 @@ const Navbar = () => {
   const buttonClass = isDarkTheme 
     ? 'border-brand/20 text-brand hover:bg-brand hover:text-white' 
     : 'border-black/20 text-black hover:bg-black hover:text-white';
-  const burgerClass = isDarkTheme ? 'bg-white' : 'bg-black';
+  const burgerClass = isDarkTheme ? 'bg-white' : 'bg-brand';
 
   return (
     <>
@@ -349,15 +349,15 @@ const Navbar = () => {
             >
               <motion.span 
                 animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                className={`w-6 h-0.5 block ${burgerClass}`} 
+                className={`w-6 h-0.5 block ${isOpen ? 'bg-white' : burgerClass}`} 
               />
               <motion.span 
                 animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-                className={`w-6 h-0.5 block ${burgerClass}`} 
+                className={`w-6 h-0.5 block ${isOpen ? 'bg-white' : burgerClass}`} 
               />
               <motion.span 
                 animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                className={`w-6 h-0.5 block ${burgerClass}`} 
+                className={`w-6 h-0.5 block ${isOpen ? 'bg-white' : burgerClass}`} 
               />
             </button>
           </div>
@@ -437,7 +437,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-white mb-4 px-5 py-1.5 rounded-sm bg-brand/60 backdrop-blur-md glare-text-full"
+            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-black mb-4 px-5 py-1.5 rounded-sm bg-white/50 backdrop-blur-md"
           >
             Welcome to
           </motion.span>
@@ -598,6 +598,10 @@ const OurWork = () => {
     ? PROJECTS 
     : PROJECTS.filter(p => p.category === activeCategory);
 
+  // Split projects into two rows for mobile slider
+  const row1 = filteredProjects.filter((_, i) => i % 2 === 0);
+  const row2 = filteredProjects.filter((_, i) => i % 2 !== 0);
+
   return (
     <section id="work" className="py-24 md:py-48 px-6 bg-black" data-theme="dark">
       <div className="max-w-7xl mx-auto">
@@ -629,7 +633,8 @@ const OurWork = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+          {/* Desktop Grid */}
+          <div className="hidden md:grid grid-cols-2 gap-12 md:gap-24">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, index) => (
                 <motion.div
@@ -671,6 +676,61 @@ const OurWork = () => {
                 </motion.div>
               ))}
             </AnimatePresence>
+          </div>
+
+          {/* Mobile Two-Row Slider */}
+          <div className="md:hidden space-y-8 overflow-hidden -mx-6">
+            {/* Row 1: Scrolls Left */}
+            <div className="flex">
+              <motion.div 
+                animate={{ x: [0, -1000] }}
+                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                className="flex gap-4 px-6"
+              >
+                {[...row1, ...row1, ...row1].map((project, i) => (
+                  <div 
+                    key={`${project.id}-row1-${i}`}
+                    onClick={() => setSelectedProject(project)}
+                    className="w-[280px] flex-shrink-0"
+                  >
+                    <div className="aspect-video rounded-2xl overflow-hidden mb-4 relative">
+                      <img src={project.thumbnail} alt={project.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                        <Play className="w-6 h-6 text-white/50" />
+                      </div>
+                    </div>
+                    <span className="text-[8px] font-mono uppercase tracking-widest text-brand mb-1 block">{project.category}</span>
+                    <h4 className="text-lg font-display font-bold text-white">{project.title}</h4>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Row 2: Scrolls Right */}
+            <div className="flex">
+              <motion.div 
+                animate={{ x: [-1000, 0] }}
+                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                className="flex gap-4 px-6"
+              >
+                {[...row2, ...row2, ...row2].map((project, i) => (
+                  <div 
+                    key={`${project.id}-row2-${i}`}
+                    onClick={() => setSelectedProject(project)}
+                    className="w-[280px] flex-shrink-0"
+                  >
+                    <div className="aspect-video rounded-2xl overflow-hidden mb-4 relative">
+                      <img src={project.thumbnail} alt={project.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                        <Play className="w-6 h-6 text-white/50" />
+                      </div>
+                    </div>
+                    <span className="text-[8px] font-mono uppercase tracking-widest text-brand mb-1 block">{project.category}</span>
+                    <h4 className="text-lg font-display font-bold text-white">{project.title}</h4>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
           </div>
         </div>
 
