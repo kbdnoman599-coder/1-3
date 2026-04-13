@@ -264,14 +264,47 @@ const CustomCursor = () => {
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(true);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 50);
+
+      // Detect theme of the section currently under the navbar
+      const sections = document.querySelectorAll('section[data-theme], footer[data-theme]');
+      let currentTheme = 'dark'; // Default to dark for Hero
+      
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        // If the top of the section has reached the navbar area (approx 80px from top)
+        if (rect.top <= 80 && rect.bottom >= 80) {
+          currentTheme = section.getAttribute('data-theme') || 'dark';
+        }
+      });
+      
+      setIsDarkTheme(currentTheme === 'dark');
+    };
+
     window.addEventListener('scroll', handleScroll);
+    // Initial check
+    handleScroll();
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navItems = ['Work', 'About', 'Services', 'People', 'Contact'];
+
+  // Logo should be white ONLY over dark sections.
+  // Over light sections, it should show its real color.
+  const showWhiteLogo = isDarkTheme;
+  
+  const textColorClass = isDarkTheme ? 'text-white/40' : 'text-black/40';
+  const hoverColorClass = isDarkTheme ? 'hover:text-white' : 'hover:text-black';
+  const buttonClass = isDarkTheme 
+    ? 'border-brand/20 text-brand hover:bg-brand hover:text-white' 
+    : 'border-black/20 text-black hover:bg-black hover:text-white';
+  const burgerClass = isDarkTheme ? 'bg-white' : 'bg-black';
 
   return (
     <>
@@ -279,7 +312,9 @@ const Navbar = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
-          isScrolled ? 'pt-4 pb-12 md:pt-6 md:pb-16 glass feather-blur' : 'py-6 md:py-12 bg-transparent'
+          isScrolled 
+            ? `pt-4 pb-12 md:pt-6 md:pb-16 glass feather-blur ${isDarkTheme ? 'bg-black/10' : 'bg-white/10'}` 
+            : 'py-6 md:py-12 bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex justify-between items-center">
@@ -287,17 +322,17 @@ const Navbar = () => {
             <img 
               src="https://i.postimg.cc/hGrCX0q4/file-0000000084d87208a305a911b218e98b.png" 
               alt="One Third Production Logo" 
-              className={`h-8 md:h-10 w-auto object-contain transition-all duration-700 ${!isScrolled ? 'logo-white' : ''}`}
+              className={`h-8 md:h-10 w-auto object-contain transition-all duration-700 ${showWhiteLogo ? 'logo-white' : ''}`}
               referrerPolicy="no-referrer"
             />
           </div>
           
-          <div className="hidden md:flex items-center gap-12 text-[10px] font-mono tracking-[0.3em] uppercase text-white/40">
+          <div className={`hidden md:flex items-center gap-12 text-[10px] font-mono tracking-[0.3em] uppercase transition-colors duration-500 ${textColorClass}`}>
             {navItems.map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="hover:text-white transition-colors duration-500"
+                className={`transition-colors duration-500 ${hoverColorClass}`}
               >
                 {item}
               </a>
@@ -305,7 +340,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="hidden sm:block px-8 py-3 border border-brand/20 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand hover:text-white transition-all duration-500 text-brand">
+            <button className={`hidden sm:block px-8 py-3 border rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-500 ${buttonClass}`}>
               Inquiry
             </button>
             <button 
@@ -314,15 +349,15 @@ const Navbar = () => {
             >
               <motion.span 
                 animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                className="w-6 h-0.5 bg-white block" 
+                className={`w-6 h-0.5 block ${burgerClass}`} 
               />
               <motion.span 
                 animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="w-6 h-0.5 bg-white block" 
+                className={`w-6 h-0.5 block ${burgerClass}`} 
               />
               <motion.span 
                 animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                className="w-6 h-0.5 bg-white block" 
+                className={`w-6 h-0.5 block ${burgerClass}`} 
               />
             </button>
           </div>
@@ -366,7 +401,7 @@ const Hero = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
-    <section className="relative h-[60vh] md:h-screen w-full overflow-hidden flex items-end pb-12 md:pb-20">
+    <section className="relative h-[60vh] md:h-screen w-full overflow-hidden flex items-end pb-12 md:pb-20" data-theme="dark">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-black/60 z-10" />
         <div className="absolute inset-0 glare-overlay z-10" />
@@ -414,7 +449,7 @@ const Hero = () => {
 
 const About = () => {
   return (
-    <section id="about" className="py-24 md:py-48 px-6 bg-white">
+    <section id="about" className="py-24 md:py-48 px-6 bg-white" data-theme="light">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -459,7 +494,7 @@ const About = () => {
 
 const Approach = () => {
   return (
-    <section className="py-24 md:py-48 px-6 bg-black border-y border-white/5">
+    <section className="py-24 md:py-48 px-6 bg-black border-y border-white/5" data-theme="dark">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-32 items-start">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -510,7 +545,7 @@ const Approach = () => {
 
 const Services = () => {
   return (
-    <section id="services" className="py-24 md:py-48 px-6 bg-white text-black">
+    <section id="services" className="py-24 md:py-48 px-6 bg-white text-black" data-theme="light">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:mb-32">
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Our Services</h2>
@@ -552,7 +587,7 @@ const OurWork = () => {
     : PROJECTS.filter(p => p.category === activeCategory);
 
   return (
-    <section id="work" className="py-24 md:py-48 px-6 bg-black">
+    <section id="work" className="py-24 md:py-48 px-6 bg-black" data-theme="dark">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 md:mb-24">
           <h2 className="text-5xl md:text-[10rem] font-display font-light tracking-tighter leading-[0.85]">Our Work</h2>
@@ -710,7 +745,7 @@ const OurWork = () => {
 
 const Team = () => {
   return (
-    <section id="people" className="py-24 md:py-48 px-6 bg-white text-black">
+    <section id="people" className="py-24 md:py-48 px-6 bg-white text-black" data-theme="light">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:mb-32">
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Core Team</h2>
@@ -749,7 +784,7 @@ const Team = () => {
 
 const Clients = () => {
   return (
-    <section id="clients" className="py-24 md:py-48 px-6 bg-black">
+    <section id="clients" className="py-24 md:py-48 px-6 bg-black" data-theme="dark">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:mb-32">
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Our Clients</h2>
@@ -781,7 +816,7 @@ const Clients = () => {
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-24 md:py-48 px-6 bg-white text-black">
+    <section id="contact" className="py-24 md:py-48 px-6 bg-white text-black" data-theme="light">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32">
         <div>
           <h2 className="text-5xl md:text-8xl font-display font-light leading-[0.9] tracking-tighter mb-12 md:mb-16">
@@ -859,7 +894,7 @@ const Contact = () => {
 
 const Footer = () => {
   return (
-    <footer className="py-24 md:py-32 px-6 md:px-10 border-t border-white/5 bg-black">
+    <footer className="py-24 md:py-32 px-6 md:px-10 border-t border-white/5 bg-black" data-theme="dark">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-24 mb-24 md:mb-32">
           <div className="col-span-1 md:col-span-2">
