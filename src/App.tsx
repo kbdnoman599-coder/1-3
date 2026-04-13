@@ -411,14 +411,14 @@ const Hero = () => {
         
         {/* Static Placeholder Image - Shows immediately */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500"
           style={{ 
             backgroundImage: 'url(https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/f189feea4c4188fc351eac1ffdfac26f.jpg)',
             opacity: isVideoLoaded ? 0 : 1 
           }}
         />
 
-        <div className={`absolute inset-0 w-full h-full scale-110 transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`absolute inset-0 w-full h-full scale-110 transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
           <iframe
             src="https://player.vimeo.com/video/1182455135?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
             className="absolute top-1/2 left-1/2 w-[177.77777778vh] min-w-full h-[56.25vw] min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
@@ -980,15 +980,6 @@ const Contact = () => {
               <div>
                 <p className="text-[10px] font-mono text-black/30 uppercase tracking-[0.2em] mb-1 md:mb-2">Call Us</p>
                 <p className="text-xl md:text-2xl font-medium tracking-tight">01740509336</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-6 md:gap-8 group cursor-pointer">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-500">
-                <Globe className="w-5 h-5 md:w-6 md:h-6" />
-              </div>
-              <div>
-                <p className="text-[10px] font-mono text-black/30 uppercase tracking-[0.2em] mb-1 md:mb-2">Visit Us</p>
-                <p className="text-xl md:text-2xl font-medium tracking-tight truncate max-w-[200px] sm:max-w-xs md:max-w-md">one-third-production.site</p>
               </div>
             </div>
           </div>
