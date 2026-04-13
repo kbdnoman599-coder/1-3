@@ -940,7 +940,7 @@ const Clients = () => {
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Our Clients</h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 border border-white/5 rounded-2xl md:rounded-3xl overflow-hidden">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-black/5 border border-black/5 rounded-2xl md:rounded-3xl overflow-hidden">
           {CLIENT_LOGOS.map((logo, index) => (
             <motion.div
               key={index}
@@ -948,7 +948,7 @@ const Clients = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.8 }}
-              className="flex items-center justify-center p-8 md:p-16 bg-black grayscale hover:grayscale-0 transition-all duration-700 opacity-30 hover:opacity-100"
+              className="flex items-center justify-center p-8 md:p-16 bg-white transition-all duration-700"
             >
               <img 
                 src={logo} 
