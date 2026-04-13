@@ -425,7 +425,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-white mb-4 px-5 py-1.5 border border-brand/20 rounded-sm bg-brand/20 backdrop-blur-md glare-text-full animate-glare-border"
+            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-white mb-4 px-5 py-1.5 rounded-sm bg-brand/60 backdrop-blur-md glare-text-full"
           >
             Welcome to
           </motion.span>
