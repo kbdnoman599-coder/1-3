@@ -21,7 +21,9 @@ import {
   Calendar,
   X,
   SlidersHorizontal,
-  ChevronDown as ChevronDownIcon
+  ChevronDown as ChevronDownIcon,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 // --- Types ---
@@ -231,9 +233,24 @@ const TEAM: TeamMember[] = [
   {
     id: '4',
     name: 'SHADMAN TASIN',
-    role: 'Head of Operations',
+    role: 'Co-Founder & Head of Operations',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/0a528865f5998c454abfda7de50615f2.jpg',
-    quote: 'As the Head of Operations at One Third Production, Shadman Tasin is the driving force behind the company\'s seamless execution of projects. He ensures that all productions run efficiently, on time, and within budget, overseeing the logistics and operational aspects that are crucial to the success of every project.'
+    quote: 'As the Co-Founder & Head of Operations at One Third Production, Shadman Tasin is the driving force behind the company\'s seamless execution of projects. He ensures that all productions run efficiently, on time, and within budget, overseeing the logistics and operational aspects that are crucial to the success of every project.'
+  }
+];
+
+const FOUNDERS = [
+  {
+    id: 'f1',
+    name: 'Tarek bin zihad',
+    role: 'CO-FOUNDER',
+    image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/88ba5ec2f8071299637dee876d9c1bea.jpg'
+  },
+  {
+    id: 'f2',
+    name: 'SHADMAN TASIN',
+    role: 'CO-FOUNDER',
+    image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/0a528865f5998c454abfda7de50615f2.jpg'
   }
 ];
 
@@ -597,28 +614,68 @@ const About = () => {
 };
 
 const Approach = () => {
+  const [currentFounder, setCurrentFounder] = useState(0);
+
+  const nextFounder = () => {
+    setCurrentFounder((prev) => (prev + 1) % FOUNDERS.length);
+  };
+
+  const prevFounder = () => {
+    setCurrentFounder((prev) => (prev - 1 + FOUNDERS.length) % FOUNDERS.length);
+  };
+
   return (
     <section className="py-24 md:py-48 px-6 bg-dark border-y border-white/5" data-theme="dark">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-32 items-start">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="lg:col-span-1"
-        >
-          <div className="aspect-[4/5] rounded-3xl overflow-hidden mb-8 md:mb-12 bg-white/5">
-            <img 
-              src="https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/88ba5ec2f8071299637dee876d9c1bea.jpg" 
-              alt="Tarek bin zihad" 
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
-              referrerPolicy="no-referrer"
-            />
-          </div>
-          <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 tracking-tight">Tarek bin zihad</h3>
-          <p className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/30 mb-8">CO-FOUNDER</p>
-          <div className="w-16 h-px bg-white/10" />
-        </motion.div>
+        <div className="lg:col-span-1 relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentFounder}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="aspect-[4/5] rounded-3xl overflow-hidden mb-8 md:mb-12 bg-white/5 relative group">
+                <img 
+                  src={FOUNDERS[currentFounder].image} 
+                  alt={FOUNDERS[currentFounder].name} 
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                  referrerPolicy="no-referrer"
+                />
+                
+                {/* Navigation Arrows */}
+                <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <button 
+                    onClick={prevFounder}
+                    className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-brand hover:text-white transition-all"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button 
+                    onClick={nextFounder}
+                    className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-brand hover:text-white transition-all"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Dots Indicator */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+                  {FOUNDERS.map((_, i) => (
+                    <div 
+                      key={i}
+                      className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${i === currentFounder ? 'bg-brand w-4' : 'bg-white/20'}`}
+                    />
+                  ))}
+                </div>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 tracking-tight">{FOUNDERS[currentFounder].name}</h3>
+              <p className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/30 mb-8">{FOUNDERS[currentFounder].role}</p>
+              <div className="w-16 h-px bg-white/10" />
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 40 }}
