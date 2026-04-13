@@ -305,7 +305,7 @@ const Navbar = () => {
   const hoverColorClass = isDarkTheme ? 'hover:text-white' : 'hover:text-black';
   const buttonClass = isDarkTheme 
     ? 'border-brand/20 text-brand hover:bg-brand hover:text-white' 
-    : 'border-black/20 text-black hover:bg-black hover:text-white';
+    : 'border-black/20 text-black hover:bg-dark hover:text-white';
   const burgerClass = isDarkTheme ? 'bg-white' : 'bg-brand';
 
   return (
@@ -315,7 +315,7 @@ const Navbar = () => {
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
           isScrolled 
-            ? `pt-4 pb-12 md:pt-6 md:pb-16 glass feather-blur ${isDarkTheme ? 'bg-black/10' : 'bg-white/10'}` 
+            ? `pt-4 pb-12 md:pt-6 md:pb-16 glass feather-blur ${isDarkTheme ? 'bg-dark/10' : 'bg-white/10'}` 
             : 'py-6 md:py-12 bg-transparent'
         }`}
       >
@@ -373,7 +373,7 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[45] bg-black flex flex-col items-center justify-center p-10 md:hidden"
+            className="fixed inset-0 z-[45] bg-dark flex flex-col items-center justify-center p-10 md:hidden"
           >
             <div className="flex flex-col items-center gap-8">
               {navItems.map((item, i) => (
@@ -406,7 +406,7 @@ const Hero = () => {
   return (
     <section className="relative h-[60vh] md:h-screen w-full overflow-hidden flex items-end pb-12 md:pb-20" data-theme="dark">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-black/60 z-10" />
+        <div className="absolute inset-0 bg-dark/60 z-10" />
         <div className="absolute inset-0 glare-overlay z-10" />
         
         {/* Static Placeholder Image - Shows immediately */}
@@ -508,7 +508,7 @@ const About = () => {
 
 const Approach = () => {
   return (
-    <section className="py-24 md:py-48 px-6 bg-black border-y border-white/5" data-theme="dark">
+    <section className="py-24 md:py-48 px-6 bg-dark border-y border-white/5" data-theme="dark">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-32 items-start">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -565,7 +565,7 @@ const Services = () => {
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Our Services</h2>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-black/5 border border-black/5 rounded-3xl overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-dark/5 border border-dark/5 rounded-3xl overflow-hidden">
           {SERVICES.map((service, index) => (
             <motion.div
               key={index}
@@ -573,9 +573,9 @@ const Services = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group p-10 md:p-16 bg-white hover:bg-black transition-all duration-700 cursor-default"
+              className="group p-10 md:p-16 bg-white hover:bg-dark transition-all duration-700 cursor-default"
             >
-              <div className="w-12 h-12 rounded-full bg-black/5 flex items-center justify-center mb-8 md:mb-12 group-hover:bg-white group-hover:text-black transition-all duration-500">
+              <div className="w-12 h-12 rounded-full bg-dark/5 flex items-center justify-center mb-8 md:mb-12 group-hover:bg-white group-hover:text-dark transition-all duration-500">
                 {service.icon}
               </div>
               <h3 className="text-2xl md:text-3xl font-display font-bold mb-4 md:mb-6 group-hover:text-white transition-colors">{service.title}</h3>
@@ -606,7 +606,7 @@ const OurWork = () => {
   const row2 = filteredProjects.filter((_, i) => i % 2 !== 0);
 
   return (
-    <section id="work" className="py-24 md:py-48 px-6 bg-black" data-theme="dark">
+    <section id="work" className="py-24 md:py-48 px-6 bg-dark" data-theme="dark">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 md:mb-24">
           <h2 className="text-5xl md:text-[10rem] font-display font-light tracking-tighter leading-[0.85]">Our Work</h2>
@@ -644,7 +644,7 @@ const OurWork = () => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute right-0 md:left-0 mt-4 w-56 bg-black/90 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden z-50 shadow-2xl"
+                      className="absolute right-0 md:left-0 mt-4 w-56 bg-dark/90 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden z-50 shadow-2xl"
                     >
                       <div className="p-1.5">
                         {categories.map((cat) => (
@@ -859,7 +859,7 @@ const OurWork = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-black w-full max-w-5xl rounded-3xl overflow-hidden relative"
+              className="bg-dark w-full max-w-5xl rounded-3xl overflow-hidden relative"
             >
               <button 
                 onClick={() => setSelectedProject(null)}
@@ -911,7 +911,7 @@ const Team = () => {
               transition={{ delay: index * 0.2, duration: 0.8 }}
               className="group"
             >
-              <div className="relative w-full aspect-[3/4] mb-8 md:mb-10 rounded-2xl md:rounded-3xl overflow-hidden bg-black/5">
+              <div className="relative w-full aspect-[3/4] mb-8 md:mb-10 rounded-2xl md:rounded-3xl overflow-hidden bg-dark/5">
                 <img 
                   src={member.image} 
                   alt={member.name} 
@@ -934,13 +934,13 @@ const Team = () => {
 
 const Clients = () => {
   return (
-    <section id="clients" className="py-24 md:py-48 px-6 bg-black" data-theme="dark">
+    <section id="clients" className="py-24 md:py-48 px-6 bg-dark" data-theme="dark">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:mb-32">
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Our Clients</h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-black/5 border border-black/5 rounded-2xl md:rounded-3xl overflow-hidden">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-dark/5 border border-dark/5 rounded-2xl md:rounded-3xl overflow-hidden">
           {CLIENT_LOGOS.map((logo, index) => (
             <motion.div
               key={index}
@@ -974,7 +974,7 @@ const Contact = () => {
           </h2>
           <div className="space-y-8 md:space-y-12">
             <div className="flex items-center gap-6 md:gap-8 group cursor-pointer">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-all duration-500">
+              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-dark/5 flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-all duration-500">
                 <Phone className="w-5 h-5 md:w-6 md:h-6" />
               </div>
               <div>
@@ -990,7 +990,7 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="bg-black/5 p-8 md:p-16 rounded-3xl md:rounded-[2.5rem] border border-black/5"
+          className="bg-dark/5 p-8 md:p-16 rounded-3xl md:rounded-[2.5rem] border border-dark/5"
         >
           <form className="space-y-8 md:space-y-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
@@ -1023,7 +1023,7 @@ const Contact = () => {
                 className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 resize-none text-lg md:text-xl font-light"
               />
             </div>
-            <button className="w-full py-5 md:py-6 bg-black text-white font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs hover:bg-black/80 transition-all duration-500 rounded-xl md:rounded-2xl">
+            <button className="w-full py-5 md:py-6 bg-dark text-white font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs hover:bg-dark/80 transition-all duration-500 rounded-xl md:rounded-2xl">
               Send Message
             </button>
           </form>
@@ -1035,7 +1035,7 @@ const Contact = () => {
 
 const Footer = () => {
   return (
-    <footer className="py-16 md:py-32 px-6 md:px-10 border-t border-white/5 bg-black" data-theme="dark">
+    <footer className="py-16 md:py-32 px-6 md:px-10 border-t border-white/5 bg-dark" data-theme="dark">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-24 mb-16 md:mb-32">
           <div className="col-span-1 md:col-span-2">
@@ -1129,7 +1129,7 @@ const FloatingContactWidget = () => {
           >
             {/* Backdrop */}
             <div 
-              className="absolute inset-0 bg-black/90 backdrop-blur-2xl"
+              className="absolute inset-0 bg-dark/90 backdrop-blur-2xl"
               onClick={() => setIsOpen(false)}
             />
             
@@ -1139,50 +1139,53 @@ const FloatingContactWidget = () => {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="relative w-full max-w-4xl bg-white/5 border border-white/10 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl p-8 md:p-16"
+              className="relative w-full max-w-4xl max-h-[90vh] bg-white/5 border border-white/10 rounded-[2rem] md:rounded-[3rem] shadow-2xl flex flex-col"
             >
-              {/* Close Button */}
-              <button 
-                onClick={() => setIsOpen(false)}
-                className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand hover:text-white transition-all duration-500 group"
-              >
-                <X className="w-6 h-6" />
-              </button>
+              {/* Scrollable Area */}
+              <div className="overflow-y-auto custom-scrollbar p-6 md:p-16">
+                {/* Close Button */}
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  className="absolute top-6 right-6 md:top-8 md:right-8 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand hover:text-white transition-all duration-500 group z-10"
+                >
+                  <X className="w-5 h-5 md:w-6 md:h-6" />
+                </button>
 
-              <div className="mb-12 md:mb-16">
-                <span className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-brand mb-4">Connect With Us</span>
-                <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tight">Let's start a <br /><span className="italic font-light text-white/60">conversation.</span></h2>
-              </div>
+                <div className="mb-8 md:mb-16 pr-12 md:pr-0">
+                  <span className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-brand mb-4">Connect With Us</span>
+                  <h2 className="text-3xl md:text-6xl font-display font-bold tracking-tight leading-tight">Let's start a <br /><span className="italic font-light text-white/60">conversation.</span></h2>
+                </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                {actions.map((action, index) => (
-                  <motion.a
-                    key={action.id}
-                    href={action.href}
-                    onClick={() => setIsOpen(false)}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 + index * 0.1 }}
-                    className="group flex items-center gap-6 p-6 md:p-8 rounded-2xl md:rounded-3xl bg-white/5 border border-white/5 hover:border-brand/40 hover:bg-brand/5 transition-all duration-500"
-                  >
-                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-all duration-500">
-                      <action.icon className="w-6 h-6 md:w-7 md:h-7" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg md:text-xl font-display font-bold mb-1">{action.label}</h3>
-                      <p className="text-white/30 text-sm font-light">{action.desc}</p>
-                    </div>
-                    <ArrowRight className="w-5 h-5 ml-auto text-white/20 group-hover:text-brand transition-all -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 duration-500" />
-                  </motion.a>
-                ))}
-              </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
+                  {actions.map((action, index) => (
+                    <motion.a
+                      key={action.id}
+                      href={action.href}
+                      onClick={() => setIsOpen(false)}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 + index * 0.1 }}
+                      className="group flex items-center gap-4 md:gap-6 p-4 md:p-8 rounded-xl md:rounded-3xl bg-white/5 border border-white/5 hover:border-brand/40 hover:bg-brand/5 transition-all duration-500"
+                    >
+                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-all duration-500 shrink-0">
+                        <action.icon className="w-5 h-5 md:w-7 md:h-7" />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="text-base md:text-xl font-display font-bold mb-0.5 md:mb-1 truncate">{action.label}</h3>
+                        <p className="text-white/30 text-[11px] md:text-sm font-light line-clamp-1">{action.desc}</p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-auto text-white/20 group-hover:text-brand transition-all -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 duration-500 shrink-0" />
+                    </motion.a>
+                  ))}
+                </div>
 
-              <div className="mt-12 md:mt-16 pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-                <p className="text-white/20 text-[10px] font-mono uppercase tracking-widest">Available 24/7 for urgent inquiries</p>
-                <div className="flex gap-6">
-                  <Instagram className="w-5 h-5 text-white/20 hover:text-brand transition-colors cursor-pointer" />
-                  <Facebook className="w-5 h-5 text-white/20 hover:text-brand transition-colors cursor-pointer" />
-                  <Linkedin className="w-5 h-5 text-white/20 hover:text-brand transition-colors cursor-pointer" />
+                <div className="mt-8 md:mt-16 pt-6 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                  <p className="text-white/20 text-[9px] md:text-[10px] font-mono uppercase tracking-widest text-center md:text-left">Available 24/7 for urgent inquiries</p>
+                  <div className="flex gap-6">
+                    <Instagram className="w-5 h-5 text-white/20 hover:text-brand transition-colors cursor-pointer" />
+                    <Facebook className="w-5 h-5 text-white/20 hover:text-brand transition-colors cursor-pointer" />
+                    <Linkedin className="w-5 h-5 text-white/20 hover:text-brand transition-colors cursor-pointer" />
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -1195,7 +1198,7 @@ const FloatingContactWidget = () => {
           onClick={() => setIsOpen(!isOpen)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className={`w-16 h-16 ${isOpen ? 'bg-black text-white border border-white/10' : 'bg-brand text-white'} rounded-full flex items-center justify-center shadow-2xl transition-colors duration-300 group`}
+          className={`w-16 h-16 ${isOpen ? 'bg-dark text-white border border-white/10' : 'bg-brand text-white'} rounded-full flex items-center justify-center shadow-2xl transition-colors duration-300 group`}
         >
           <motion.div
             animate={{ rotate: isOpen ? 45 : 0 }}
