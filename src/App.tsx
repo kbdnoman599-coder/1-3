@@ -18,7 +18,9 @@ import {
   Twitter,
   MessageCircle,
   Calendar,
-  X
+  X,
+  SlidersHorizontal,
+  ChevronDown as ChevronDownIcon
 } from 'lucide-react';
 
 // --- Types ---
@@ -591,6 +593,7 @@ const Services = () => {
 const OurWork = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const categories = ['All', 'Corporate', 'Documentary', 'Sports', 'Fashion & Music'];
   
@@ -616,20 +619,55 @@ const OurWork = () => {
               <h3 className="text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6">Videography</h3>
               <p className="text-white/30 font-light max-w-md text-base md:text-lg leading-relaxed">Explore our diverse portfolio of cinematic productions across various industries.</p>
             </div>
-            <div className="flex flex-wrap gap-2 md:gap-3">
-              {categories.map((cat) => (
-                <button 
-                  key={cat} 
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-5 md:px-8 py-2 md:py-3 rounded-full border text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-500 ${
-                    activeCategory === cat 
-                      ? 'bg-white text-black border-white' 
-                      : 'border-white/10 hover:border-white/30 text-white/40'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+            <div className="relative">
+              <button 
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                className="flex items-center gap-2.5 px-5 py-2.5 rounded-sm border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5 text-brand" />
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white">
+                  Filter: {activeCategory}
+                </span>
+                <ChevronDownIcon className={`w-3.5 h-3.5 text-white/40 transition-transform duration-500 ${isFilterOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              <AnimatePresence>
+                {isFilterOpen && (
+                  <>
+                    {/* Backdrop to close */}
+                    <div 
+                      className="fixed inset-0 z-40" 
+                      onClick={() => setIsFilterOpen(false)} 
+                    />
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute right-0 md:left-0 mt-4 w-56 bg-black/90 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden z-50 shadow-2xl"
+                    >
+                      <div className="p-1.5">
+                        {categories.map((cat) => (
+                          <button 
+                            key={cat} 
+                            onClick={() => {
+                              setActiveCategory(cat);
+                              setIsFilterOpen(false);
+                            }}
+                            className={`w-full text-left px-5 py-3 rounded-md text-[9px] font-bold uppercase tracking-[0.2em] transition-all duration-300 ${
+                              activeCategory === cat 
+                                ? 'bg-white text-black' 
+                                : 'text-white/40 hover:bg-white/5 hover:text-white'
+                            }`}
+                          >
+                            {cat}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
@@ -665,13 +703,12 @@ const OurWork = () => {
 
                     {/* Text Overlay */}
                     <div className="absolute bottom-0 left-0 w-full p-8 md:p-12">
-                      <div className="flex items-center gap-4 mb-3">
-                        <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-white/60">
+                      <div className="mb-4">
+                        <span className="inline-block text-[9px] font-mono tracking-[0.3em] uppercase text-white px-4 py-1.5 border border-white/20 rounded-sm bg-white/10 backdrop-blur-md">
                           {project.category}
                         </span>
-                        <div className="h-px w-8 bg-white/20" />
                       </div>
-                      <h4 className="text-2xl md:text-4xl font-display font-bold tracking-tight text-white group-hover:italic transition-all duration-500">
+                      <h4 className="text-xl md:text-3xl font-display font-bold tracking-tight text-white group-hover:italic transition-all duration-500">
                         {project.title}
                       </h4>
                     </div>
@@ -708,8 +745,10 @@ const OurWork = () => {
 
                       {/* Text Overlay */}
                       <div className="absolute bottom-0 left-0 w-full p-5">
-                        <span className="text-[8px] font-mono uppercase tracking-widest text-brand mb-1 block">{project.category}</span>
-                        <h4 className="text-lg font-display font-bold text-white leading-tight">{project.title}</h4>
+                        <span className="inline-block text-[7px] font-mono uppercase tracking-widest text-white px-3 py-1 border border-white/20 rounded-sm bg-white/10 backdrop-blur-md mb-2">
+                          {project.category}
+                        </span>
+                        <h4 className="text-base font-display font-bold text-white leading-tight">{project.title}</h4>
                       </div>
                     </div>
                   </div>
@@ -742,8 +781,10 @@ const OurWork = () => {
 
                       {/* Text Overlay */}
                       <div className="absolute bottom-0 left-0 w-full p-5">
-                        <span className="text-[8px] font-mono uppercase tracking-widest text-brand mb-1 block">{project.category}</span>
-                        <h4 className="text-lg font-display font-bold text-white leading-tight">{project.title}</h4>
+                        <span className="inline-block text-[7px] font-mono uppercase tracking-widest text-white px-3 py-1 border border-white/20 rounded-sm bg-white/10 backdrop-blur-md mb-2">
+                          {project.category}
+                        </span>
+                        <h4 className="text-base font-display font-bold text-white leading-tight">{project.title}</h4>
                       </div>
                     </div>
                   </div>
