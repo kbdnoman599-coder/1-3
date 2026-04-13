@@ -413,7 +413,7 @@ const Hero = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
           style={{ 
-            backgroundImage: 'url(https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070&auto=format&fit=crop)',
+            backgroundImage: 'url(https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/f189feea4c4188fc351eac1ffdfac26f.jpg)',
             opacity: isVideoLoaded ? 0 : 1 
           }}
         />
