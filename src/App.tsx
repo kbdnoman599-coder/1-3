@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import Player from '@vimeo/player';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'motion/react';
 import { 
   Play, 
@@ -459,17 +460,38 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const playerRef = useRef<Player | null>(null);
 
-  const handleVideoLoad = () => {
-    // Set video opacity to 1 immediately so it's ready behind the preloader
-    setIsVideoLoaded(true);
-    
-    // Wait a small buffer (500ms) to ensure the video has actually started playing
-    // before we signal the preloader to fade out.
-    setTimeout(() => {
-      onVideoLoad();
-    }, 800);
-  };
+  useEffect(() => {
+    if (iframeRef.current) {
+      playerRef.current = new Player(iframeRef.current);
+      
+      // The 'play' event fires when the video actually starts moving
+      playerRef.current.on('play', () => {
+        setIsVideoLoaded(true);
+        // Small extra buffer to ensure the first frame is rendered
+        setTimeout(() => {
+          onVideoLoad();
+        }, 300);
+      });
+
+      // Fallback in case 'play' event doesn't fire (e.g. browser blocks autoplay)
+      const fallback = setTimeout(() => {
+        if (!isVideoLoaded) {
+          setIsVideoLoaded(true);
+          onVideoLoad();
+        }
+      }, 4000);
+
+      return () => {
+        if (playerRef.current) {
+          playerRef.current.off('play');
+        }
+        clearTimeout(fallback);
+      };
+    }
+  }, [onVideoLoad, isVideoLoaded]);
 
   return (
     <section className="relative h-[60vh] md:h-screen w-full overflow-hidden flex items-end pb-12 md:pb-20" data-theme="dark">
@@ -488,12 +510,12 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
 
         <div className={`absolute inset-0 w-full h-full scale-105 transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
           <iframe
+            ref={iframeRef}
             src="https://player.vimeo.com/video/1182455135?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&quality=1080p"
             className="absolute top-1/2 left-1/2 w-[177.77777778vh] min-w-full h-[56.25vw] min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
             frameBorder="0"
             allow="autoplay; fullscreen"
             title="Hero Background Video"
-            onLoad={handleVideoLoad}
           />
         </div>
       </div>
