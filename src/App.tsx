@@ -439,7 +439,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-black mb-4 px-5 py-1.5 rounded-sm bg-white/50 backdrop-blur-md"
+            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-black mb-4 px-5 py-1.5 rounded-sm bg-white/80 backdrop-blur-md border border-brand/20"
           >
             Welcome to
           </motion.span>
@@ -704,7 +704,7 @@ const OurWork = () => {
                     {/* Text Overlay */}
                     <div className="absolute bottom-0 left-0 w-full p-8 md:p-12">
                       <div className="mb-4">
-                        <span className="inline-block text-[9px] font-mono tracking-[0.3em] uppercase text-white px-4 py-1.5 border border-white/20 rounded-sm bg-white/10 backdrop-blur-md">
+                        <span className="inline-block text-[9px] font-mono tracking-[0.3em] uppercase text-white px-4 py-1.5 border border-brand/30 rounded-sm bg-brand/10 backdrop-blur-md">
                           {project.category}
                         </span>
                       </div>
@@ -831,7 +831,7 @@ const OurWork = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: (index % 3) * 0.1 }}
-                  className={`${mobileClass} md:col-span-1 md:row-span-1 rounded-xl md:rounded-[2rem] overflow-hidden group cursor-pointer relative bg-white/5 h-full`}
+                  className={`${mobileClass} md:col-span-1 md:row-span-1 rounded-xl md:rounded-[2rem] overflow-hidden group cursor-pointer relative bg-white/5 h-full border border-transparent hover:border-brand/40 transition-colors duration-500`}
                 >
                   <img 
                     src={img} 
@@ -974,7 +974,7 @@ const Contact = () => {
           </h2>
           <div className="space-y-8 md:space-y-12">
             <div className="flex items-center gap-6 md:gap-8 group cursor-pointer">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-500">
+              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-all duration-500">
                 <Phone className="w-5 h-5 md:w-6 md:h-6" />
               </div>
               <div>
@@ -1057,7 +1057,7 @@ const Footer = () => {
               <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/30 mb-6 md:mb-12">Navigation</h4>
               <ul className="space-y-3 md:space-y-6 text-sm font-light text-white/50">
                 {['Work', 'About', 'Services', 'People', 'Contact'].map(item => (
-                  <li key={item}><a href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors duration-500">{item}</a></li>
+                  <li key={item}><a href={`#${item.toLowerCase()}`} className="hover:text-brand transition-colors duration-500">{item}</a></li>
                 ))}
               </ul>
             </div>
@@ -1071,8 +1071,8 @@ const Footer = () => {
                   { name: 'Linkedin', icon: Linkedin },
                   { name: 'Twitter', icon: Twitter }
                 ].map((social) => (
-                  <a key={social.name} href="#" className="flex items-center gap-4 text-sm text-white/50 hover:text-white transition-all duration-500 group">
-                    <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                  <a key={social.name} href="#" className="flex items-center gap-4 text-sm text-white/50 hover:text-brand transition-all duration-500 group">
+                    <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-all">
                       <social.icon className="w-3 h-3" />
                     </div>
                     <span className="font-light tracking-wide hidden sm:inline">{social.name}</span>
@@ -1098,11 +1098,10 @@ const Footer = () => {
 };
 
 const FloatingContactWidget = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [showLabel, setShowLabel] = useState(false);
 
   useEffect(() => {
-    // Show label after 2 seconds, hide after 6 seconds
     const showTimer = setTimeout(() => setShowLabel(true), 2000);
     const hideTimer = setTimeout(() => setShowLabel(false), 8000);
     return () => {
@@ -1112,53 +1111,99 @@ const FloatingContactWidget = () => {
   }, []);
 
   const actions = [
-    { id: 'book', icon: Calendar, label: 'Book Now', href: '#contact', color: 'bg-white text-black' },
-    { id: 'call', icon: Phone, label: 'Call Us', href: 'tel:01740509336', color: 'bg-white text-black' },
-    { id: 'chat', icon: MessageCircle, label: 'Live Chat', href: 'https://wa.me/01740509336', color: 'bg-[#25D366] text-white' },
-    { id: 'mail', icon: Mail, label: 'Email Us', href: 'mailto:kbdnoman599@gmail.com', color: 'bg-white text-black' },
+    { id: 'book', icon: Calendar, label: 'Book Now', href: '#contact', desc: 'Schedule your next production' },
+    { id: 'call', icon: Phone, label: 'Call Us', href: 'tel:01740509336', desc: 'Direct line to our team' },
+    { id: 'chat', icon: MessageCircle, label: 'Live Chat', href: 'https://wa.me/01740509336', desc: 'Instant support on WhatsApp' },
+    { id: 'mail', icon: Mail, label: 'Email Us', href: 'mailto:kbdnoman599@gmail.com', desc: 'Send us your project brief' },
   ];
 
   return (
-    <div className="fixed bottom-8 right-8 z-[90] flex flex-col items-center gap-4">
+    <>
       <AnimatePresence>
-        {isExpanded && (
-          <div className="flex flex-col items-center gap-4 mb-2">
-            {actions.map((action, index) => (
-              <motion.a
-                key={action.id}
-                href={action.href}
-                initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 20, scale: 0.8 }}
-                transition={{ delay: (actions.length - index) * 0.05 }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className={`w-12 h-12 ${action.color} rounded-full flex items-center justify-center shadow-xl group relative`}
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center p-6 md:p-12"
+          >
+            {/* Backdrop */}
+            <div 
+              className="absolute inset-0 bg-black/90 backdrop-blur-2xl"
+              onClick={() => setIsOpen(false)}
+            />
+            
+            {/* Content */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="relative w-full max-w-4xl bg-white/5 border border-white/10 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl p-8 md:p-16"
+            >
+              {/* Close Button */}
+              <button 
+                onClick={() => setIsOpen(false)}
+                className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand hover:text-white transition-all duration-500 group"
               >
-                <action.icon className="w-5 h-5" />
-                <span className="absolute right-full mr-4 px-3 py-1.5 bg-black text-white text-[9px] font-bold uppercase tracking-widest rounded-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-white/10">
-                  {action.label}
-                </span>
-              </motion.a>
-            ))}
-          </div>
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="mb-12 md:mb-16">
+                <span className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-brand mb-4">Connect With Us</span>
+                <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tight">Let's start a <br /><span className="italic font-light text-white/60">conversation.</span></h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                {actions.map((action, index) => (
+                  <motion.a
+                    key={action.id}
+                    href={action.href}
+                    onClick={() => setIsOpen(false)}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + index * 0.1 }}
+                    className="group flex items-center gap-6 p-6 md:p-8 rounded-2xl md:rounded-3xl bg-white/5 border border-white/5 hover:border-brand/40 hover:bg-brand/5 transition-all duration-500"
+                  >
+                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-all duration-500">
+                      <action.icon className="w-6 h-6 md:w-7 md:h-7" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg md:text-xl font-display font-bold mb-1">{action.label}</h3>
+                      <p className="text-white/30 text-sm font-light">{action.desc}</p>
+                    </div>
+                    <ArrowRight className="w-5 h-5 ml-auto text-white/20 group-hover:text-brand transition-all -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 duration-500" />
+                  </motion.a>
+                ))}
+              </div>
+
+              <div className="mt-12 md:mt-16 pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p className="text-white/20 text-[10px] font-mono uppercase tracking-widest">Available 24/7 for urgent inquiries</p>
+                <div className="flex gap-6">
+                  <Instagram className="w-5 h-5 text-white/20 hover:text-brand transition-colors cursor-pointer" />
+                  <Facebook className="w-5 h-5 text-white/20 hover:text-brand transition-colors cursor-pointer" />
+                  <Linkedin className="w-5 h-5 text-white/20 hover:text-brand transition-colors cursor-pointer" />
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 
       <motion.button
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`w-16 h-16 ${isExpanded ? 'bg-black text-white border border-white/10' : 'bg-brand text-white'} rounded-full flex items-center justify-center shadow-2xl transition-colors duration-300 group`}
+        className={`w-16 h-16 ${isOpen ? 'bg-black text-white border border-white/10' : 'bg-brand text-white'} rounded-full flex items-center justify-center shadow-2xl transition-colors duration-300 group`}
       >
         <motion.div
-          animate={{ rotate: isExpanded ? 45 : 0 }}
+          animate={{ rotate: isOpen ? 45 : 0 }}
           transition={{ type: 'spring', damping: 20 }}
         >
-          {isExpanded ? <X className="w-8 h-8" /> : <MessageCircle className="w-8 h-8" />}
+          {isOpen ? <X className="w-8 h-8" /> : <MessageCircle className="w-8 h-8" />}
         </motion.div>
         <AnimatePresence>
-          {!isExpanded && (showLabel || isExpanded) && (
+          {!isOpen && showLabel && (
             <motion.span
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -1180,13 +1225,13 @@ const FloatingContactWidget = () => {
             </motion.span>
           )}
         </AnimatePresence>
-        {!isExpanded && !showLabel && (
+        {!isOpen && !showLabel && (
           <span className="absolute right-full mr-4 px-4 py-2 bg-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-full opacity-0 md:group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
             Contact Us
           </span>
         )}
       </motion.button>
-    </div>
+    </>
   );
 };
 

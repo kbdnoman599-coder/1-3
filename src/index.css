@@ -10,7 +10,7 @@
 
 @layer base {
   body {
-    @apply bg-black text-white selection:bg-white selection:text-black antialiased;
+    @apply bg-black text-white selection:bg-brand selection:text-white antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 
@@ -88,8 +88,12 @@
   }
 
   .glare-overlay {
-    background: radial-gradient(circle at 50% 50%, rgba(117, 16, 4, 0.15) 0%, transparent 70%);
+    background: radial-gradient(circle at 50% 50%, rgba(117, 16, 4, 0.25) 0%, transparent 70%);
     pointer-events: none;
+  }
+
+  .brand-glow {
+    box-shadow: 0 0 20px rgba(117, 16, 4, 0.3);
   }
 
   .logo-white {
