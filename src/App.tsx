@@ -467,13 +467,10 @@ const Preloader = ({ isLoading }: { isLoading: boolean }) => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="mt-8 flex flex-col items-center"
+              className="mt-8"
             >
               <span className="text-4xl md:text-6xl font-display font-bold tracking-tighter text-white/90">
                 {progress}%
-              </span>
-              <span className="mt-2 text-[8px] font-mono tracking-[0.4em] uppercase text-white/20">
-                Synchronizing
               </span>
             </motion.div>
           </div>
@@ -800,16 +797,18 @@ const OurWork = () => {
               <p className="text-white/30 font-light max-w-md text-base md:text-lg leading-relaxed">Explore our diverse portfolio of cinematic productions across various industries.</p>
             </div>
             
-            {/* Desktop Filter Dropdown */}
-            <div className="hidden md:block relative">
+            {/* Responsive Filter Dropdown */}
+            <div className="relative w-full md:w-auto">
               <button 
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="flex items-center gap-2.5 px-5 py-2.5 rounded-sm border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group"
+                className="w-full md:w-auto flex items-center justify-between md:justify-start gap-2.5 px-5 py-3 md:py-2.5 rounded-sm border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group"
               >
-                <SlidersHorizontal className="w-3.5 h-3.5 text-brand" />
-                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white">
-                  Filter: {activeCategory}
-                </span>
+                <div className="flex items-center gap-2.5">
+                  <SlidersHorizontal className="w-3.5 h-3.5 text-brand" />
+                  <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white">
+                    Filter: {activeCategory}
+                  </span>
+                </div>
                 <ChevronDownIcon className={`w-3.5 h-3.5 text-white/40 transition-transform duration-500 ${isFilterOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -822,7 +821,7 @@ const OurWork = () => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute right-0 mt-4 w-56 bg-dark/90 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden z-50 shadow-2xl"
+                      className="absolute right-0 left-0 md:left-auto mt-4 w-full md:w-56 bg-dark/90 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden z-50 shadow-2xl"
                     >
                       <div className="p-1.5">
                         {categories.map((cat) => (
@@ -846,25 +845,6 @@ const OurWork = () => {
                   </>
                 )}
               </AnimatePresence>
-            </div>
-
-            {/* Mobile Filter Horizontal Scroll */}
-            <div className="md:hidden w-full overflow-x-auto no-scrollbar -mx-6 px-6">
-              <div className="flex gap-3 pb-2">
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`whitespace-nowrap px-6 py-3 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all duration-300 border ${
-                      activeCategory === cat
-                        ? 'bg-brand border-brand text-white'
-                        : 'bg-white/5 border-white/10 text-white/40'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
 
