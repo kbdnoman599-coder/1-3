@@ -437,14 +437,28 @@ const SecurityLayer = () => {
       e.preventDefault();
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    };
+
+    const handleGestureStart = (e: any) => {
+      e.preventDefault();
+    };
+
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('dragstart', handleDragStart);
+    document.addEventListener('touchstart', handleTouchStart, { passive: false });
+    document.addEventListener('gesturestart', handleGestureStart);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('dragstart', handleDragStart);
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('gesturestart', handleGestureStart);
     };
   }, []);
 
@@ -650,7 +664,7 @@ const About = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl"
+          className="relative aspect-[4/5] rounded-3xl overflow-hidden"
         >
           <img 
             src="https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/f189feea4c4188fc351eac1ffdfac26f.jpg" 
@@ -690,7 +704,7 @@ const Approach = ({ isLoading }: { isLoading: boolean }) => {
     <section className="py-24 md:py-48 px-6 bg-dark border-y border-white/5 content-visibility-auto" data-theme="dark">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-32 items-start">
         <div className="lg:col-span-1 relative animate-smooth">
-          <div className="aspect-[4/5] rounded-3xl overflow-hidden mb-8 md:mb-12 bg-white/5 relative group shadow-2xl">
+          <div className="aspect-[4/5] rounded-3xl overflow-hidden mb-8 md:mb-12 bg-white/5 relative group">
             <AnimatePresence mode="wait">
               <motion.img 
                 key={currentFounder}
@@ -911,7 +925,7 @@ const OurWork = () => {
                   onClick={() => setSelectedProject(project)}
                   className="group cursor-pointer"
                 >
-                  <div className="aspect-video rounded-2xl md:rounded-[2.5rem] overflow-hidden relative shadow-2xl">
+                  <div className="aspect-video rounded-2xl md:rounded-[2.5rem] overflow-hidden relative">
                     <img 
                       src={project.thumbnail} 
                       alt={project.title} 
@@ -960,7 +974,7 @@ const OurWork = () => {
                     onClick={() => setSelectedProject(project)}
                     className="w-[280px] flex-shrink-0"
                   >
-                    <div className="aspect-video rounded-2xl overflow-hidden relative shadow-lg">
+                    <div className="aspect-video rounded-2xl overflow-hidden relative">
                       <img 
                         src={project.thumbnail} 
                         alt={project.title} 
@@ -1003,7 +1017,7 @@ const OurWork = () => {
                     onClick={() => setSelectedProject(project)}
                     className="w-[280px] flex-shrink-0"
                   >
-                    <div className="aspect-video rounded-2xl overflow-hidden relative shadow-lg">
+                    <div className="aspect-video rounded-2xl overflow-hidden relative">
                       <img 
                         src={project.thumbnail} 
                         alt={project.title} 
@@ -1154,7 +1168,7 @@ const Team = () => {
               transition={{ delay: index * 0.2, duration: 0.8 }}
               className="group animate-smooth"
             >
-              <div className="relative w-full aspect-[3/4] mb-8 md:mb-10 rounded-2xl md:rounded-3xl overflow-hidden bg-dark/5 shadow-xl">
+              <div className="relative w-full aspect-[3/4] mb-8 md:mb-10 rounded-2xl md:rounded-3xl overflow-hidden bg-dark/5">
                 <img 
                   src={member.image} 
                   alt={member.name} 
