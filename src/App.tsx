@@ -229,13 +229,6 @@ const TEAM: TeamMember[] = [
     role: 'Drone Pilot',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/9646f6dbfb325f4e7771f4b6facd64c9.jpg',
     quote: 'As a certified drone pilot for One Third Production, Shahriar Shomrat provides a unique and dynamic perspective to every project. His expertise in aerial cinematography allows him to capture stunning, professional footage from above, adding a cinematic touch that elevates the entire production.'
-  },
-  {
-    id: '4',
-    name: 'SHADMAN TASIN',
-    role: 'Co-Founder & Head of Operations',
-    image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/0a528865f5998c454abfda7de50615f2.jpg',
-    quote: 'As the Co-Founder & Head of Operations at One Third Production, Shadman Tasin is the driving force behind the company\'s seamless execution of projects. He ensures that all productions run efficiently, on time, and within budget, overseeing the logistics and operational aspects that are crucial to the success of every project.'
   }
 ];
 
@@ -249,7 +242,7 @@ const FOUNDERS = [
   {
     id: 'f2',
     name: 'SHADMAN TASIN',
-    role: 'CO-FOUNDER',
+    role: 'CO-FOUNDER & HEAD OF OPERATIONS',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/0a528865f5998c454abfda7de50615f2.jpg'
   }
 ];
@@ -616,6 +609,14 @@ const About = () => {
 const Approach = () => {
   const [currentFounder, setCurrentFounder] = useState(0);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentFounder((prev) => (prev + 1) % FOUNDERS.length);
+    }, 5000); // Autoplay every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   const nextFounder = () => {
     setCurrentFounder((prev) => (prev + 1) % FOUNDERS.length);
   };
@@ -628,48 +629,62 @@ const Approach = () => {
     <section className="py-24 md:py-48 px-6 bg-dark border-y border-white/5" data-theme="dark">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-32 items-start">
         <div className="lg:col-span-1 relative">
+          <div className="aspect-[4/5] rounded-3xl overflow-hidden mb-8 md:mb-12 bg-white/5 relative group">
+            <AnimatePresence mode="wait">
+              <motion.img 
+                key={currentFounder}
+                src={FOUNDERS[currentFounder].image} 
+                alt={FOUNDERS[currentFounder].name} 
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                referrerPolicy="no-referrer"
+              />
+            </AnimatePresence>
+            
+            {/* Navigation Arrows - Now Static */}
+            <div className="absolute inset-0 flex items-center justify-between px-4 z-10 pointer-events-none">
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevFounder();
+                }}
+                className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-brand transition-all shadow-lg pointer-events-auto"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextFounder();
+                }}
+                className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-brand transition-all shadow-lg pointer-events-auto"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Dots Indicator - Now Static */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+              {FOUNDERS.map((_, i) => (
+                <div 
+                  key={i}
+                  className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${i === currentFounder ? 'bg-brand w-4' : 'bg-white/20'}`}
+                />
+              ))}
+            </div>
+          </div>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={currentFounder}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4 }}
             >
-              <div className="aspect-[4/5] rounded-3xl overflow-hidden mb-8 md:mb-12 bg-white/5 relative group">
-                <img 
-                  src={FOUNDERS[currentFounder].image} 
-                  alt={FOUNDERS[currentFounder].name} 
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
-                  referrerPolicy="no-referrer"
-                />
-                
-                {/* Navigation Arrows */}
-                <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <button 
-                    onClick={prevFounder}
-                    className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-brand hover:text-white transition-all"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <button 
-                    onClick={nextFounder}
-                    className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-brand hover:text-white transition-all"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
-
-                {/* Dots Indicator */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-                  {FOUNDERS.map((_, i) => (
-                    <div 
-                      key={i}
-                      className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${i === currentFounder ? 'bg-brand w-4' : 'bg-white/20'}`}
-                    />
-                  ))}
-                </div>
-              </div>
               <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 tracking-tight">{FOUNDERS[currentFounder].name}</h3>
               <p className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/30 mb-8">{FOUNDERS[currentFounder].role}</p>
               <div className="w-16 h-px bg-white/10" />
@@ -766,7 +781,9 @@ const OurWork = () => {
               <h3 className="text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6">Videography</h3>
               <p className="text-white/30 font-light max-w-md text-base md:text-lg leading-relaxed">Explore our diverse portfolio of cinematic productions across various industries.</p>
             </div>
-            <div className="relative">
+            
+            {/* Desktop Filter Dropdown */}
+            <div className="hidden md:block relative">
               <button 
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
                 className="flex items-center gap-2.5 px-5 py-2.5 rounded-sm border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group"
@@ -781,17 +798,13 @@ const OurWork = () => {
               <AnimatePresence>
                 {isFilterOpen && (
                   <>
-                    {/* Backdrop to close */}
-                    <div 
-                      className="fixed inset-0 z-40" 
-                      onClick={() => setIsFilterOpen(false)} 
-                    />
+                    <div className="fixed inset-0 z-40" onClick={() => setIsFilterOpen(false)} />
                     <motion.div
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute right-0 md:left-0 mt-4 w-56 bg-dark/90 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden z-50 shadow-2xl"
+                      className="absolute right-0 mt-4 w-56 bg-dark/90 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden z-50 shadow-2xl"
                     >
                       <div className="p-1.5">
                         {categories.map((cat) => (
@@ -815,6 +828,25 @@ const OurWork = () => {
                   </>
                 )}
               </AnimatePresence>
+            </div>
+
+            {/* Mobile Filter Horizontal Scroll */}
+            <div className="md:hidden w-full overflow-x-auto no-scrollbar -mx-6 px-6">
+              <div className="flex gap-3 pb-2">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`whitespace-nowrap px-6 py-3 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all duration-300 border ${
+                      activeCategory === cat
+                        ? 'bg-brand border-brand text-white'
+                        : 'bg-white/5 border-white/10 text-white/40'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
