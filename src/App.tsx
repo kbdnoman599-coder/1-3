@@ -409,6 +409,24 @@ const Navbar = () => {
 };
 
 const Preloader = ({ isLoading }: { isLoading: boolean }) => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (isLoading) {
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 99) return 99;
+          // Faster at start, slower at end
+          const increment = Math.max(1, Math.floor((100 - prev) / 10));
+          return prev + increment;
+        });
+      }, 150);
+      return () => clearInterval(interval);
+    } else {
+      setProgress(100);
+    }
+  }, [isLoading]);
+
   return (
     <AnimatePresence>
       {isLoading && (
@@ -437,27 +455,27 @@ const Preloader = ({ isLoading }: { isLoading: boolean }) => {
               />
             </motion.div>
             
-            <div className="mt-12 w-48 h-[1px] bg-white/10 relative overflow-hidden">
+            <div className="mt-12 w-48 h-[1px] bg-white/5 relative overflow-hidden">
               <motion.div
-                initial={{ x: "-100%" }}
-                animate={{ x: "100%" }}
-                transition={{ 
-                  duration: 1.5, 
-                  repeat: Infinity, 
-                  ease: "easeInOut" 
-                }}
-                className="absolute inset-0 bg-brand w-1/2"
+                initial={{ width: "0%" }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="absolute inset-y-0 left-0 bg-brand"
               />
             </div>
             
-            <motion.p
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-6 text-[9px] font-mono tracking-[0.6em] uppercase text-white/30"
+              className="mt-8 flex flex-col items-center"
             >
-              Loading Cinematic Experience
-            </motion.p>
+              <span className="text-4xl md:text-6xl font-display font-bold tracking-tighter text-white/90">
+                {progress}%
+              </span>
+              <span className="mt-2 text-[8px] font-mono tracking-[0.4em] uppercase text-white/20">
+                Synchronizing
+              </span>
+            </motion.div>
           </div>
         </motion.div>
       )}
