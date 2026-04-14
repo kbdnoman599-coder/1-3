@@ -326,11 +326,11 @@ const Navbar = () => {
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
           isScrolled 
-            ? `pt-4 pb-4 md:pt-6 md:pb-6 glass ${isDarkTheme ? 'bg-dark/80' : 'bg-white/80'} border-b border-white/5` 
+            ? `pt-4 pb-8 md:pt-6 md:pb-10 glass feather-blur ${isDarkTheme ? 'bg-dark/10' : 'bg-white/10'}` 
             : 'py-6 md:py-12 bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-10 flex justify-between items-center">
+        <div className="max-w-screen-2xl mx-auto px-6 md:px-10 flex justify-between items-center">
           <div className="flex items-center gap-4">
             <img 
               src="https://i.postimg.cc/hGrCX0q4/file-0000000084d87208a305a911b218e98b.png" 
@@ -602,7 +602,7 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto w-full px-6 md:px-10 relative z-20">
+      <div className="max-w-screen-2xl mx-auto w-full px-6 md:px-10 relative z-20">
         <motion.div 
           style={{ y: y1, opacity }}
           className="text-left"
@@ -636,7 +636,7 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
 const About = () => {
   return (
     <section id="about" className="py-24 md:py-48 px-6 bg-white content-visibility-auto" data-theme="light">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center">
+      <div className="max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -702,7 +702,7 @@ const Approach = ({ isLoading }: { isLoading: boolean }) => {
 
   return (
     <section className="py-24 md:py-48 px-6 bg-dark border-y border-white/5 content-visibility-auto" data-theme="dark">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-32 items-start">
+      <div className="max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-32 items-start">
         <div className="lg:col-span-1 relative animate-smooth">
           <div className="aspect-[4/5] rounded-3xl overflow-hidden mb-8 md:mb-12 bg-white/5 relative group">
             <AnimatePresence mode="wait">
@@ -799,7 +799,7 @@ const Approach = ({ isLoading }: { isLoading: boolean }) => {
 const Services = () => {
   return (
     <section id="services" className="py-24 md:py-48 px-6 bg-white text-black content-visibility-auto" data-theme="light">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-screen-2xl mx-auto">
         <div className="mb-16 md:mb-32">
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Our Services</h2>
         </div>
@@ -846,7 +846,7 @@ const OurWork = () => {
 
   return (
     <section id="work" className="py-24 md:py-48 px-6 bg-dark content-visibility-auto" data-theme="dark">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-screen-2xl mx-auto">
         <div className="mb-12 md:mb-24">
           <h2 className="text-5xl md:text-[7rem] lg:text-[8rem] font-display font-light tracking-tighter leading-[0.85]">Our Work</h2>
         </div>
@@ -933,7 +933,7 @@ const OurWork = () => {
           </div>
 
           {/* Desktop Grid */}
-          <div className="hidden md:grid grid-cols-2 gap-8 md:gap-12 lg:gap-16">
+          <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 lg:gap-16">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, index) => (
                 <motion.div
@@ -1198,7 +1198,7 @@ const Team = () => {
 const Clients = () => {
   return (
     <section id="clients" className="py-24 md:py-48 px-6 bg-dark content-visibility-auto" data-theme="dark">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-screen-2xl mx-auto">
         <div className="mb-16 md:mb-32">
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Our Clients</h2>
         </div>
@@ -1232,7 +1232,7 @@ const Clients = () => {
 const Contact = () => {
   return (
     <section id="contact" className="py-24 md:py-48 px-6 bg-white text-black content-visibility-auto" data-theme="light">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32">
+      <div className="max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32">
         <div>
           <h2 className="text-5xl md:text-8xl font-display font-light leading-[0.9] tracking-tighter mb-12 md:mb-16">
             Let's create <br /> <span className="font-bold italic">together.</span>
@@ -1301,7 +1301,7 @@ const Contact = () => {
 const Footer = () => {
   return (
     <footer className="py-16 md:py-32 px-6 md:px-10 border-t border-white/5 bg-dark content-visibility-auto" data-theme="dark">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-screen-2xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-24 mb-16 md:mb-32">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-4 mb-6 md:mb-12">
