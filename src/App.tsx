@@ -408,6 +408,49 @@ const Navbar = () => {
   );
 };
 
+const SecurityLayer = () => {
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Disable F12
+      if (e.key === 'F12') {
+        e.preventDefault();
+      }
+      // Disable Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+        e.preventDefault();
+      }
+      // Disable Ctrl+U (View Source)
+      if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+      }
+      // Disable Ctrl+S (Save Page)
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+      }
+    };
+
+    const handleDragStart = (e: DragEvent) => {
+      e.preventDefault();
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('dragstart', handleDragStart);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('dragstart', handleDragStart);
+    };
+  }, []);
+
+  return null;
+};
+
 const Preloader = ({ isLoading }: { isLoading: boolean }) => {
   const [progress, setProgress] = useState(0);
 
@@ -416,11 +459,11 @@ const Preloader = ({ isLoading }: { isLoading: boolean }) => {
       const interval = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 99) return 99;
-          // Faster at start, slower at end
-          const increment = Math.max(1, Math.floor((100 - prev) / 10));
+          // Faster increment for better perceived speed
+          const increment = Math.max(2, Math.floor((100 - prev) / 8));
           return prev + increment;
         });
-      }, 150);
+      }, 100);
       return () => clearInterval(interval);
     } else {
       setProgress(100);
@@ -526,14 +569,14 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
         
         {/* Static Placeholder Image - Shows immediately */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-700 ease-out"
           style={{ 
             backgroundImage: 'url(https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/f189feea4c4188fc351eac1ffdfac26f.jpg)',
             opacity: isVideoLoaded ? 0 : 1 
           }}
         />
 
-        <div className={`absolute inset-0 w-full h-full scale-105 transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`absolute inset-0 w-full h-full scale-105 transition-opacity duration-1000 ease-out ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
           <iframe
             ref={iframeRef}
             src="https://player.vimeo.com/video/1182455135?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&quality=1080p"
@@ -578,12 +621,12 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
 
 const About = () => {
   return (
-    <section id="about" className="py-24 md:py-48 px-6 bg-white" data-theme="light">
+    <section id="about" className="py-24 md:py-48 px-6 bg-white content-visibility-auto" data-theme="light">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-4xl md:text-7xl font-display font-light mb-8 md:mb-12 leading-[1.1] text-black tracking-tight">
@@ -605,14 +648,16 @@ const About = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="relative aspect-[4/5] rounded-3xl overflow-hidden"
+          className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl"
         >
           <img 
             src="https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/f189feea4c4188fc351eac1ffdfac26f.jpg" 
             alt="One Third Production Visual" 
             className="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
             referrerPolicy="no-referrer"
           />
         </motion.div>
@@ -621,10 +666,11 @@ const About = () => {
   );
 };
 
-const Approach = () => {
+const Approach = ({ isLoading }: { isLoading: boolean }) => {
   const [currentFounder, setCurrentFounder] = useState(0);
 
   useEffect(() => {
+    if (isLoading) return; // Don't start interval during loading
     const interval = setInterval(() => {
       setCurrentFounder((prev) => (prev + 1) % FOUNDERS.length);
     }, 5000); // Autoplay every 5 seconds
@@ -641,10 +687,10 @@ const Approach = () => {
   };
 
   return (
-    <section className="py-24 md:py-48 px-6 bg-dark border-y border-white/5" data-theme="dark">
+    <section className="py-24 md:py-48 px-6 bg-dark border-y border-white/5 content-visibility-auto" data-theme="dark">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-32 items-start">
-        <div className="lg:col-span-1 relative">
-          <div className="aspect-[4/5] rounded-3xl overflow-hidden mb-8 md:mb-12 bg-white/5 relative group">
+        <div className="lg:col-span-1 relative animate-smooth">
+          <div className="aspect-[4/5] rounded-3xl overflow-hidden mb-8 md:mb-12 bg-white/5 relative group shadow-2xl">
             <AnimatePresence mode="wait">
               <motion.img 
                 key={currentFounder}
@@ -655,6 +701,8 @@ const Approach = () => {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
               />
             </AnimatePresence>
@@ -736,7 +784,7 @@ const Approach = () => {
 
 const Services = () => {
   return (
-    <section id="services" className="py-24 md:py-48 px-6 bg-white text-black" data-theme="light">
+    <section id="services" className="py-24 md:py-48 px-6 bg-white text-black content-visibility-auto" data-theme="light">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:mb-32">
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Our Services</h2>
@@ -748,9 +796,9 @@ const Services = () => {
               key={index}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.1 }}
-              className="group p-10 md:p-16 bg-white hover:bg-dark transition-all duration-700 cursor-default"
+              className="group p-10 md:p-16 bg-white hover:bg-dark transition-all duration-700 cursor-default animate-smooth"
             >
               <div className="w-12 h-12 rounded-full bg-dark/5 flex items-center justify-center mb-8 md:mb-12 group-hover:bg-white group-hover:text-dark transition-all duration-500">
                 {service.icon}
@@ -783,7 +831,7 @@ const OurWork = () => {
   const row2 = filteredProjects.filter((_, i) => i % 2 !== 0);
 
   return (
-    <section id="work" className="py-24 md:py-48 px-6 bg-dark" data-theme="dark">
+    <section id="work" className="py-24 md:py-48 px-6 bg-dark content-visibility-auto" data-theme="dark">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 md:mb-24">
           <h2 className="text-5xl md:text-[10rem] font-display font-light tracking-tighter leading-[0.85]">Our Work</h2>
@@ -863,11 +911,13 @@ const OurWork = () => {
                   onClick={() => setSelectedProject(project)}
                   className="group cursor-pointer"
                 >
-                  <div className="aspect-video rounded-2xl md:rounded-[2.5rem] overflow-hidden relative">
+                  <div className="aspect-video rounded-2xl md:rounded-[2.5rem] overflow-hidden relative shadow-2xl">
                     <img 
                       src={project.thumbnail} 
                       alt={project.title} 
                       className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                     />
                     {/* Gradient Overlay */}
@@ -910,8 +960,15 @@ const OurWork = () => {
                     onClick={() => setSelectedProject(project)}
                     className="w-[280px] flex-shrink-0"
                   >
-                    <div className="aspect-video rounded-2xl overflow-hidden relative">
-                      <img src={project.thumbnail} alt={project.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    <div className="aspect-video rounded-2xl overflow-hidden relative shadow-lg">
+                      <img 
+                        src={project.thumbnail} 
+                        alt={project.title} 
+                        className="w-full h-full object-cover" 
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer" 
+                      />
                       {/* Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70" />
                       
@@ -946,8 +1003,15 @@ const OurWork = () => {
                     onClick={() => setSelectedProject(project)}
                     className="w-[280px] flex-shrink-0"
                   >
-                    <div className="aspect-video rounded-2xl overflow-hidden relative">
-                      <img src={project.thumbnail} alt={project.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    <div className="aspect-video rounded-2xl overflow-hidden relative shadow-lg">
+                      <img 
+                        src={project.thumbnail} 
+                        alt={project.title} 
+                        className="w-full h-full object-cover" 
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer" 
+                      />
                       {/* Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70" />
                       
@@ -1006,14 +1070,16 @@ const OurWork = () => {
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.8, delay: (index % 3) * 0.1 }}
-                  className={`${mobileClass} md:col-span-1 md:row-span-1 rounded-xl md:rounded-[2rem] overflow-hidden group cursor-pointer relative bg-white/5 h-full border border-transparent hover:border-brand/40 transition-colors duration-500`}
+                  className={`${mobileClass} md:col-span-1 md:row-span-1 rounded-xl md:rounded-[2rem] overflow-hidden group cursor-pointer relative bg-white/5 h-full border border-transparent hover:border-brand/40 transition-colors duration-500 animate-smooth`}
                 >
                   <img 
                     src={img} 
                     alt={`Photography ${index + 1}`} 
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                   />
                 </motion.div>
@@ -1072,7 +1138,7 @@ const OurWork = () => {
 
 const Team = () => {
   return (
-    <section id="people" className="py-24 md:py-48 px-6 bg-white text-black" data-theme="light">
+    <section id="people" className="py-24 md:py-48 px-6 bg-white text-black content-visibility-auto" data-theme="light">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:mb-32">
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Core Team</h2>
@@ -1084,15 +1150,17 @@ const Team = () => {
               key={member.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.2, duration: 0.8 }}
-              className="group"
+              className="group animate-smooth"
             >
-              <div className="relative w-full aspect-[3/4] mb-8 md:mb-10 rounded-2xl md:rounded-3xl overflow-hidden bg-dark/5">
+              <div className="relative w-full aspect-[3/4] mb-8 md:mb-10 rounded-2xl md:rounded-3xl overflow-hidden bg-dark/5 shadow-xl">
                 <img 
                   src={member.image} 
                   alt={member.name} 
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -1111,7 +1179,7 @@ const Team = () => {
 
 const Clients = () => {
   return (
-    <section id="clients" className="py-24 md:py-48 px-6 bg-dark" data-theme="dark">
+    <section id="clients" className="py-24 md:py-48 px-6 bg-dark content-visibility-auto" data-theme="dark">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:mb-32">
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Our Clients</h2>
@@ -1123,14 +1191,16 @@ const Clients = () => {
               key={index}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.1, duration: 0.8 }}
-              className="flex items-center justify-center p-8 md:p-16 bg-white transition-all duration-700"
+              className="flex items-center justify-center p-8 md:p-16 bg-white transition-all duration-700 animate-smooth"
             >
               <img 
                 src={logo} 
                 alt={`Client Logo ${index + 1}`} 
                 className="max-w-full max-h-10 md:max-h-12 object-contain"
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
@@ -1143,7 +1213,7 @@ const Clients = () => {
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-24 md:py-48 px-6 bg-white text-black" data-theme="light">
+    <section id="contact" className="py-24 md:py-48 px-6 bg-white text-black content-visibility-auto" data-theme="light">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32">
         <div>
           <h2 className="text-5xl md:text-8xl font-display font-light leading-[0.9] tracking-tighter mb-12 md:mb-16">
@@ -1156,7 +1226,7 @@ const Contact = () => {
               </div>
               <div>
                 <p className="text-[10px] font-mono text-black/30 uppercase tracking-[0.2em] mb-1 md:mb-2">Call Us</p>
-                <p className="text-xl md:text-2xl font-medium tracking-tight">01740509336</p>
+                <p className="text-xl md:text-2xl font-medium tracking-tight selectable">01740509336</p>
               </div>
             </div>
           </div>
@@ -1165,9 +1235,9 @@ const Contact = () => {
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="bg-dark/5 p-8 md:p-16 rounded-3xl md:rounded-[2.5rem] border border-dark/5"
+          className="bg-dark/5 p-8 md:p-16 rounded-3xl md:rounded-[2.5rem] border border-dark/5 animate-smooth"
         >
           <form className="space-y-8 md:space-y-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
@@ -1175,14 +1245,14 @@ const Contact = () => {
                 <input 
                   type="text" 
                   placeholder="Name"
-                  className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 text-lg md:text-xl font-light"
+                  className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 text-lg md:text-xl font-light selectable"
                 />
               </div>
               <div className="relative group">
                 <input 
                   type="email" 
                   placeholder="Email"
-                  className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 text-lg md:text-xl font-light"
+                  className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 text-lg md:text-xl font-light selectable"
                 />
               </div>
             </div>
@@ -1190,14 +1260,14 @@ const Contact = () => {
               <input 
                 type="text" 
                 placeholder="Project Type"
-                className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 text-lg md:text-xl font-light"
+                className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 text-lg md:text-xl font-light selectable"
               />
             </div>
             <div className="relative group">
               <textarea 
                 placeholder="Message"
                 rows={4}
-                className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 resize-none text-lg md:text-xl font-light"
+                className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 resize-none text-lg md:text-xl font-light selectable"
               />
             </div>
             <button className="w-full py-5 md:py-6 bg-dark text-white font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs hover:bg-dark/80 transition-all duration-500 rounded-xl md:rounded-2xl">
@@ -1212,7 +1282,7 @@ const Contact = () => {
 
 const Footer = () => {
   return (
-    <footer className="py-16 md:py-32 px-6 md:px-10 border-t border-white/5 bg-dark" data-theme="dark">
+    <footer className="py-16 md:py-32 px-6 md:px-10 border-t border-white/5 bg-dark content-visibility-auto" data-theme="dark">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-24 mb-16 md:mb-32">
           <div className="col-span-1 md:col-span-2">
@@ -1221,6 +1291,8 @@ const Footer = () => {
                 src="https://i.postimg.cc/hGrCX0q4/file-0000000084d87208a305a911b218e98b.png" 
                 alt="One Third Production Logo" 
                 className="h-8 md:h-12 w-auto object-contain logo-white"
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -1261,7 +1333,7 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 md:pt-16 border-t border-white/5 gap-6 md:gap-8">
-          <p className="text-[9px] font-mono uppercase tracking-[0.4em] text-white/20 text-center md:text-left">
+          <p className="text-[9px] font-mono uppercase tracking-[0.4em] text-white/20 text-center md:text-left selectable">
             © 2026 One Third Production.
           </p>
           <div className="flex gap-8 md:gap-12 text-[9px] font-mono uppercase tracking-[0.4em] text-white/20">
@@ -1347,7 +1419,7 @@ const FloatingContactWidget = () => {
                       <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-all duration-500 shrink-0">
                         <action.icon className="w-5 h-5 md:w-7 md:h-7" />
                       </div>
-                      <div className="min-w-0">
+                      <div className="min-w-0 selectable">
                         <h3 className="text-base md:text-xl font-display font-bold mb-0.5 md:mb-1 truncate">{action.label}</h3>
                         <p className="text-white/30 text-[11px] md:text-sm font-light line-clamp-1">{action.desc}</p>
                       </div>
@@ -1430,6 +1502,7 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen font-sans selection:bg-brand selection:text-white">
+      <SecurityLayer />
       <Preloader isLoading={isLoading} />
       <div className="grain-overlay" />
       <CustomCursor />
@@ -1438,7 +1511,7 @@ export default function App() {
       <main>
         <Hero onVideoLoad={() => setIsLoading(false)} />
         <About />
-        <Approach />
+        <Approach isLoading={isLoading} />
         <Services />
         <OurWork />
         <Team />
