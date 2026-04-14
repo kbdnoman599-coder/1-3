@@ -326,7 +326,7 @@ const Navbar = () => {
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
           isScrolled 
-            ? `pt-4 pb-12 md:pt-6 md:pb-16 glass feather-blur ${isDarkTheme ? 'bg-dark/10' : 'bg-white/10'}` 
+            ? `pt-4 pb-4 md:pt-6 md:pb-6 glass ${isDarkTheme ? 'bg-dark/80' : 'bg-white/80'} border-b border-white/5` 
             : 'py-6 md:py-12 bg-transparent'
         }`}
       >
@@ -619,7 +619,7 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl md:text-[7rem] font-display font-light tracking-tighter leading-[0.85]"
+            className="text-5xl md:text-[5.5rem] lg:text-[6rem] font-display font-light tracking-tighter leading-[0.85]"
           >
             <span className="glare-text-full inline-block [-webkit-text-stroke:0.5px_rgba(255,255,255,0.3)]">ONE THIRD</span> <br /> 
             <span className="block mt-2 font-bold text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.5)] glare-text-dim animate-pulse-glow">
@@ -643,7 +643,7 @@ const About = () => {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-7xl font-display font-light mb-8 md:mb-12 leading-[1.1] text-black tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-display font-light mb-8 md:mb-12 leading-[1.1] text-black tracking-tight">
             Step into the <br /> <span className="font-bold italic">suspenseful</span> world
           </h2>
           <div className="space-y-6 md:space-y-8 text-black/50 text-lg md:text-xl font-light leading-relaxed max-w-xl">
@@ -776,7 +776,7 @@ const Approach = ({ isLoading }: { isLoading: boolean }) => {
           transition={{ delay: 0.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="lg:col-span-2 space-y-8 md:space-y-12"
         >
-          <p className="text-3xl md:text-6xl font-display font-light leading-[1.1] tracking-tight text-white/90">
+          <p className="text-3xl md:text-5xl font-display font-light leading-[1.1] tracking-tight text-white/90">
             At One Third, we have a bunch of <span className="font-bold italic">creative</span> members.
           </p>
           <div className="space-y-6 md:space-y-8 text-white/40 text-lg md:text-xl font-light leading-relaxed max-w-2xl">
@@ -848,7 +848,7 @@ const OurWork = () => {
     <section id="work" className="py-24 md:py-48 px-6 bg-dark content-visibility-auto" data-theme="dark">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 md:mb-24">
-          <h2 className="text-5xl md:text-[10rem] font-display font-light tracking-tighter leading-[0.85]">Our Work</h2>
+          <h2 className="text-5xl md:text-[7rem] lg:text-[8rem] font-display font-light tracking-tighter leading-[0.85]">Our Work</h2>
         </div>
 
         {/* Videography Sub-section */}
@@ -859,11 +859,12 @@ const OurWork = () => {
               <p className="text-white/30 font-light max-w-md text-base md:text-lg leading-relaxed">Explore our diverse portfolio of cinematic productions across various industries.</p>
             </div>
             
-            {/* Responsive Filter Dropdown */}
+            {/* Responsive Filter: Dropdown on Mobile, List on Desktop */}
             <div className="relative w-full md:w-auto">
+              {/* Mobile Dropdown Button */}
               <button 
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="w-full md:w-auto flex items-center justify-between md:justify-start gap-2.5 px-5 py-3 md:py-2.5 rounded-sm border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group"
+                className="md:hidden w-full flex items-center justify-between gap-2.5 px-5 py-3 rounded-sm border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group"
               >
                 <div className="flex items-center gap-2.5">
                   <SlidersHorizontal className="w-3.5 h-3.5 text-brand" />
@@ -874,16 +875,37 @@ const OurWork = () => {
                 <ChevronDownIcon className={`w-3.5 h-3.5 text-white/40 transition-transform duration-500 ${isFilterOpen ? 'rotate-180' : ''}`} />
               </button>
 
+              {/* Desktop Filter List */}
+              <div className="hidden md:flex items-center gap-8">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-500 relative py-2 ${
+                      activeCategory === cat ? 'text-brand' : 'text-white/40 hover:text-white'
+                    }`}
+                  >
+                    {cat}
+                    {activeCategory === cat && (
+                      <motion.div 
+                        layoutId="activeCategory"
+                        className="absolute -bottom-1 left-0 w-full h-px bg-brand"
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
+
               <AnimatePresence>
                 {isFilterOpen && (
                   <>
-                    <div className="fixed inset-0 z-40" onClick={() => setIsFilterOpen(false)} />
+                    <div className="fixed inset-0 z-40 md:hidden" onClick={() => setIsFilterOpen(false)} />
                     <motion.div
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute right-0 left-0 md:left-auto mt-4 w-full md:w-56 bg-dark/90 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden z-50 shadow-2xl"
+                      className="absolute right-0 left-0 mt-4 w-full bg-dark/90 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden z-50 shadow-2xl md:hidden"
                     >
                       <div className="p-1.5">
                         {categories.map((cat) => (
@@ -911,7 +933,7 @@ const OurWork = () => {
           </div>
 
           {/* Desktop Grid */}
-          <div className="hidden md:grid grid-cols-2 gap-12 md:gap-24">
+          <div className="hidden md:grid grid-cols-2 gap-8 md:gap-12 lg:gap-16">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, index) => (
                 <motion.div
@@ -1061,44 +1083,26 @@ const OurWork = () => {
             <div className="h-px flex-grow bg-white/20 hidden md:block mx-12 mb-6" />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-            {PHOTOGRAPHY_IMAGES.map((img, index) => {
-              // Bento logic for mobile (index-based spans)
-              const bentoClasses = [
-                "col-span-2 row-span-1", // 0: Large wide
-                "col-span-1 row-span-1", // 1: Small
-                "col-span-1 row-span-2", // 2: Tall
-                "col-span-1 row-span-1", // 3: Small
-                "col-span-2 row-span-1", // 4: Wide
-                "col-span-1 row-span-1", // 5: Small
-                "col-span-1 row-span-1", // 6: Small
-                "col-span-2 row-span-1", // 7: Wide
-                "col-span-1 row-span-1", // 8: Small
-                "col-span-1 row-span-1", // 9: Small
-              ];
-              
-              const mobileClass = bentoClasses[index % bentoClasses.length];
-
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.8, delay: (index % 3) * 0.1 }}
-                  className={`${mobileClass} md:col-span-1 md:row-span-1 rounded-xl md:rounded-[2rem] overflow-hidden group cursor-pointer relative bg-white/5 h-full border border-transparent hover:border-brand/40 transition-colors duration-500 animate-smooth`}
-                >
-                  <img 
-                    src={img} 
-                    alt={`Photography ${index + 1}`} 
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                    loading="lazy"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                  />
-                </motion.div>
-              );
-            })}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+            {PHOTOGRAPHY_IMAGES.map((img, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8, delay: (index % 3) * 0.1 }}
+                className="aspect-square rounded-xl md:rounded-[2.5rem] overflow-hidden group cursor-pointer relative bg-white/5 border border-transparent hover:border-brand/40 transition-colors duration-500 animate-smooth"
+              >
+                <img 
+                  src={img} 
+                  alt={`Photography ${index + 1}`} 
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                />
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
@@ -1153,12 +1157,12 @@ const OurWork = () => {
 const Team = () => {
   return (
     <section id="people" className="py-24 md:py-48 px-6 bg-white text-black content-visibility-auto" data-theme="light">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-screen-2xl mx-auto">
         <div className="mb-16 md:mb-32">
           <h2 className="text-5xl md:text-8xl font-display font-light tracking-tight">Core Team</h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-12 lg:gap-16">
           {TEAM.map((member, index) => (
             <motion.div
               key={member.id}
@@ -1168,7 +1172,7 @@ const Team = () => {
               transition={{ delay: index * 0.2, duration: 0.8 }}
               className="group animate-smooth"
             >
-              <div className="relative w-full aspect-[3/4] mb-8 md:mb-10 rounded-2xl md:rounded-3xl overflow-hidden bg-dark/5">
+              <div className="relative w-full aspect-[4/5] mb-8 md:mb-12 rounded-2xl md:rounded-[3rem] overflow-hidden bg-dark/5">
                 <img 
                   src={member.image} 
                   alt={member.name} 
@@ -1178,9 +1182,9 @@ const Team = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <h3 className="text-xl md:text-2xl font-display font-bold mb-2 md:mb-3">{member.name}</h3>
-              <p className="text-black/30 font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] mb-6 md:mb-8">{member.role}</p>
-              <p className="text-black/50 font-light text-sm md:text-base leading-relaxed">
+              <h3 className="text-2xl md:text-4xl font-display font-bold mb-4 md:mb-6 tracking-tight">{member.name}</h3>
+              <p className="text-black/30 font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] mb-8 md:mb-10">{member.role}</p>
+              <p className="text-black/60 font-light text-base md:text-xl leading-relaxed max-w-md">
                 {member.quote}
               </p>
             </motion.div>
