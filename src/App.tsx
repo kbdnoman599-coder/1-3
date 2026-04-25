@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, FormEvent } from 'react';
 import Player from '@vimeo/player';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'motion/react';
 import { 
@@ -45,124 +45,29 @@ interface TeamMember {
   quote: string;
 }
 
+// --- Helpers ---
+
+const getYoutubeId = (url: string) => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
+};
+
+const getVimeoId = (url: string) => {
+  const match = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  return match ? match[1] : null;
+};
+
 // --- Data ---
 
 const PROJECTS: Project[] = [
-  // CORPORATE
   {
-    id: 'c1',
-    title: 'Akij Biax AV',
+    id: 'y1',
+    title: 'ONE THIRD PRODUCTION',
     category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/akijbiax/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186036602',
-    description: 'One Third created an audiovisual story for Akij Biax Films Ltd., showcasing their innovation and global presence in packaging. With cinematic visuals and strong storytelling, we turned their brand values into a powerful narrative.'
-  },
-  {
-    id: 'c2',
-    title: 'Acteus Promo',
-    category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/acteus/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186039651',
-    description: 'A dynamic promotional film for Acteus, highlighting their industrial impact and operational excellence through cinematic storytelling.'
-  },
-  {
-    id: 'c3',
-    title: 'ASC Transcom',
-    category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/asctranscom/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186350615',
-    description: 'Showcasing the technological advancement and service quality of ASC Transcom through high-end visual production.'
-  },
-  {
-    id: 'c4',
-    title: 'BD Lamps PLC',
-    category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/bdlamps/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186352653',
-    description: 'Lighting up the future with BD Lamps PLC. A cinematic journey through their manufacturing process and lighting solutions.'
-  },
-  {
-    id: 'c5',
-    title: 'SURMC Promo',
-    category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/surmc/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186359146',
-    description: 'A professional promotional highlight for SURMC, showcasing excellence in their field.'
-  },
-  {
-    id: 'c6',
-    title: 'ULAB Final Promo',
-    category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/ulab/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186360559',
-    description: 'Celebrating the achievements and vision of ULAB through a comprehensive final promotional film.'
-  },
-  {
-    id: 'c7',
-    title: 'TEL',
-    category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/tel/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186359683',
-    description: 'A technical and corporate showcase for TEL, focusing on innovation and connectivity.'
-  },
-  // DOCUMENTARY
-  {
-    id: 'd1',
-    title: 'Somantaral',
-    category: 'Documentary',
-    thumbnail: 'https://picsum.photos/seed/somantaral/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186356473',
-    description: 'A powerful documentary short showcasing the journey of the transgender community in Bangladesh. Finding a new path to a dignified life through skill development and economic empowerment.'
-  },
-  {
-    id: 'd2',
-    title: 'UN Women D',
-    category: 'Documentary',
-    thumbnail: 'https://picsum.photos/seed/unwomen/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186364111',
-    description: 'A collaborative documentary piece with UN Women, exploring human stories and societal impact.'
-  },
-  {
-    id: 'd3',
-    title: 'Norway Promo',
-    category: 'Documentary',
-    thumbnail: 'https://picsum.photos/seed/norway/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186354495',
-    description: 'An exploration of narrative and landscape, documenting unique stories from Norway.'
-  },
-  // SPORTS
-  {
-    id: 's1',
-    title: '5th Gemcon Golf Tournament 2024',
-    category: 'Sports',
-    thumbnail: 'https://picsum.photos/seed/golf/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186035093',
-    description: 'Capturing the precision and camaraderie of the 5th Gemcon Golf Tournament at the Jashore Golf & Country Club.'
-  },
-  {
-    id: 's2',
-    title: 'UP8 UIU',
-    category: 'Sports',
-    thumbnail: 'https://picsum.photos/seed/uiu/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186364694',
-    description: 'High-energy sports coverage of the UP8 tournament at UIU.'
-  },
-  {
-    id: 's3',
-    title: 'Hyper PG Full Video',
-    category: 'Sports',
-    thumbnail: 'https://picsum.photos/seed/hyperpg/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186367639',
-    description: 'Complete coverage of Hyper PG, showcasing energy, action, and motion.'
-  },
-  // Fashion & Music
-  {
-    id: 'f1',
-    title: 'Reunion Ajik',
-    category: 'Fashion & Music',
-    thumbnail: 'https://picsum.photos/seed/ajik/1920/1080',
-    videoUrl: 'https://player.vimeo.com/video/1186355577',
-    description: 'A celebratory visual piece documenting the festive spirit of the Ajik reunion.'
+    thumbnail: 'https://img.youtube.com/vi/oOHJDoG7LyI/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=oOHJDoG7LyI',
+    description: 'Our latest production showcasing cinematic storytelling and visual excellence.'
   }
 ];
 
@@ -211,21 +116,21 @@ const SERVICES = [
 const TEAM: TeamMember[] = [
   {
     id: '1',
-    name: 'Emzamul Haqe',
+    name: 'EMZAMUL HAQE',
     role: 'Photographer',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/b81711b429acbfb5811d90fa7c4c1a15.jpg',
     quote: 'Emzamul Haqe is a talented photographer for One Third Production. He has a great eye for capturing the perfect moment and telling a story through his images. His photography work helps bring every project to life, documenting events and people with a unique and professional touch.'
   },
   {
     id: '2',
-    name: 'MD Ibrahim Khalil',
+    name: 'MD IBRAHIM KHALIL',
     role: 'Cinematographer',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/098df0b7547226b5b98b93caba682bd4.jpg',
-    quote: 'MD Ibrahim Khalil is the talented Cinematographer at One Third Production. With a keen eye for visual storytelling, he is an expert at capturing the heart of every story. His work brings projects to life with dynamic and professional visuals, ensuring every frame is crafted to perfection.'
+    quote: 'MD IBRAHIM KHALIL is the talented Cinematographer at One Third Production. With a keen eye for visual storytelling, he is an expert at capturing the heart of every story. His work brings projects to life with dynamic and professional visuals, ensuring every frame is crafted to perfection.'
   },
   {
     id: '3',
-    name: 'Shahriar Shomrat',
+    name: 'SHAHRIAR SHOMRAT',
     role: 'Drone Pilot',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/9646f6dbfb325f4e7771f4b6facd64c9.jpg',
     quote: 'As a certified drone pilot for One Third Production, Shahriar Shomrat provides a unique and dynamic perspective to every project. His expertise in aerial cinematography allows him to capture stunning, professional footage from above, adding a cinematic touch that elevates the entire production.'
@@ -235,19 +140,45 @@ const TEAM: TeamMember[] = [
 const FOUNDERS = [
   {
     id: 'f1',
-    name: 'Tarek Bin Zihad',
+    name: 'Tarek bin zihad',
     role: 'CO-FOUNDER',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/88ba5ec2f8071299637dee876d9c1bea.jpg'
   },
   {
     id: 'f2',
-    name: 'Shadman Tasin',
+    name: 'SHADMAN TASIN',
     role: 'CO-FOUNDER & HEAD OF OPERATIONS',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/0a528865f5998c454abfda7de50615f2.jpg'
   }
 ];
 
 // --- Components ---
+
+const VideoPlayer = ({ videoUrl, title, className }: { videoUrl: string, title: string, className?: string }) => {
+  let src = '';
+  const yid = getYoutubeId(videoUrl);
+  const vid = getVimeoId(videoUrl);
+
+  if (yid) {
+    src = `https://www.youtube.com/embed/${yid}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${window.location.origin}`;
+  } else if (vid) {
+    src = `https://player.vimeo.com/video/${vid}?api=1&autoplay=1&muted=0&playsinline=1&autopause=0&controls=1&title=0&byline=0&portrait=0&transparent=1&dnt=1&quality=1080p`;
+  } else {
+    src = videoUrl;
+  }
+
+  return (
+    <iframe
+      src={src}
+      className={className}
+      allow="accelerometer *; autoplay; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *; fullscreen"
+      referrerPolicy="no-referrer"
+      allowFullScreen
+      frameBorder="0"
+      title={title}
+    />
+  );
+};
 
 const CustomCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -542,6 +473,7 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const playerRef = useRef<Player | null>(null);
 
@@ -549,17 +481,34 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
     if (iframeRef.current) {
       playerRef.current = new Player(iframeRef.current);
       
-      // The 'play' event fires when the video actually starts moving
-      playerRef.current.on('play', () => {
+      const handlePlay = () => {
         setIsVideoLoaded(true);
-        // Small extra buffer to ensure the first frame is rendered
-        setTimeout(() => {
-          onVideoLoad();
-        }, 300);
+        onVideoLoad();
+        setIsPlaying(true);
+      };
+
+      playerRef.current.on('play', handlePlay);
+      
+      // Force volume 0 and trigger play
+      playerRef.current.setVolume(0);
+      playerRef.current.setQuality('1080p').catch(() => {});
+      playerRef.current.play().catch(() => {
+        // Autoplay might be blocked
       });
 
-      // Fallback in case 'play' event doesn't fire (e.g. browser blocks autoplay)
-      const fallback = setTimeout(() => {
+      // Handle direct video interaction for mobile if autoplay is blocked
+      const attemptPlay = () => {
+        if (playerRef.current) {
+          playerRef.current.play().catch(() => {});
+        }
+      };
+
+      window.addEventListener('touchstart', attemptPlay, { once: true });
+      window.addEventListener('click', attemptPlay, { once: true });
+      window.addEventListener('scroll', attemptPlay, { once: true });
+
+      // Show video after a short delay even if it hasn't signaled "play" yet
+      const timer = setTimeout(() => {
         if (!isVideoLoaded) {
           setIsVideoLoaded(true);
           onVideoLoad();
@@ -570,36 +519,51 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
         if (playerRef.current) {
           playerRef.current.off('play');
         }
-        clearTimeout(fallback);
+        window.removeEventListener('touchstart', attemptPlay);
+        window.removeEventListener('click', attemptPlay);
+        window.removeEventListener('scroll', attemptPlay);
+        clearTimeout(timer);
       };
     }
-  }, [onVideoLoad, isVideoLoaded]);
+  }, []);
 
   return (
-    <section className="relative h-[60vh] md:h-screen w-full overflow-hidden flex items-end pb-12 md:pb-20" data-theme="dark">
+    <section className="relative h-screen min-h-[600px] w-full overflow-hidden flex items-end pb-20 md:pb-24" data-theme="dark">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-dark/40 z-10" />
-        <div className="absolute inset-0 glare-overlay opacity-50 z-10" />
+        <div className={`absolute inset-0 bg-dark/10 z-10 transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`} />
+        <div className="absolute inset-0 glare-overlay opacity-20 z-10" />
         
-        {/* Static Placeholder Image - Shows immediately */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-700 ease-out"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-out"
           style={{ 
             backgroundImage: 'url(https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/f189feea4c4188fc351eac1ffdfac26f.jpg)',
             opacity: isVideoLoaded ? 0 : 1 
           }}
         />
 
-        <div className={`absolute inset-0 w-full h-full scale-105 transition-opacity duration-1000 ease-out ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-out ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
           <iframe
             ref={iframeRef}
-            src="https://player.vimeo.com/video/1186354771?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&quality=1080p&autopause=0&badge=0&portrait=0"
-            className="absolute top-1/2 left-1/2 w-[177.77777778vh] min-w-full h-[56.25vw] min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            src="https://player.vimeo.com/video/1186354771?api=1&background=1&autoplay=1&muted=1&loop=1&playsinline=1&autopause=0&transparent=1&quality=1080p"
+            className="absolute top-1/2 left-1/2 w-[177.77777778vh] min-w-full h-[56.25vw] min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none scale-[1.1] md:scale-105 transition-transform duration-[2000ms]"
             frameBorder="0"
             allow="autoplay; fullscreen"
             title="Hero Background Video"
           />
         </div>
+
+        {/* Mobile Autoplay Helper */}
+        {!isPlaying && (
+          <div className="absolute inset-0 z-10 md:hidden flex items-center justify-center pointer-events-none">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.4 }}
+              className="px-6 py-3 rounded-full border border-white/20 bg-black/20 backdrop-blur-sm text-[8px] font-mono tracking-widest uppercase text-white"
+            >
+              Swipe or Tap to activate
+            </motion.div>
+          </div>
+        )}
       </div>
 
       <div className="max-w-screen-2xl mx-auto w-full px-6 md:px-10 relative z-20">
@@ -607,28 +571,56 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
           style={{ y: y1, opacity }}
           className="text-left"
         >
-          <motion.span 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-block text-[10px] font-mono tracking-[0.4em] uppercase text-black mb-4 px-5 py-1.5 rounded-sm bg-white/80 backdrop-blur-md border border-brand/20"
+            className="flex items-center gap-4 mb-6"
           >
-            Welcome to
-          </motion.span>
+            <span className="w-12 h-px bg-brand" />
+            <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/60">
+              Creative Studio
+            </span>
+          </motion.div>
+          
           <motion.h1 
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl md:text-[5.5rem] lg:text-[6rem] font-display font-light tracking-tighter leading-[0.85]"
+            transition={{ delay: 0.4, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="text-6xl md:text-[7rem] lg:text-[9rem] font-display font-bold tracking-tighter leading-[0.8]"
           >
-            <span className="glare-text-full inline-block [-webkit-text-stroke:0.5px_rgba(255,255,255,0.3)]">ONE THIRD</span> <br /> 
-            <span className="block mt-2 font-bold text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.5)] glare-text-dim animate-pulse-glow">
+            <span className="block text-white">ONE THIRD</span> 
+            <span className="block text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.4)] mt-4">
               PRODUCTION
             </span>
           </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+            className="mt-12 md:mt-16"
+          >
+            <a 
+              href="#work"
+              className="group inline-flex items-center gap-6 text-[10px] font-mono tracking-[0.4em] uppercase text-white/40 hover:text-white transition-colors duration-500"
+            >
+              <span className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+                <Play className="w-4 h-4 fill-current" />
+              </span>
+              View Showreel
+            </a>
+          </motion.div>
         </motion.div>
       </div>
 
+      <motion.div 
+        animate={{ y: [0, 10, 0] }}
+        transition={{ repeat: Infinity, duration: 2 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 hidden md:block"
+      >
+        <ChevronDown className="w-6 h-6 text-white/20" />
+      </motion.div>
     </section>
   );
 };
@@ -832,68 +824,38 @@ const Services = () => {
 // Project Thumbnail Helper
 const ProjectThumbnail = ({ videoUrl, title, className, defaultThumb }: { videoUrl: string, title: string, className?: string, defaultThumb: string }) => {
   const [thumb, setThumb] = useState<string | null>(null);
-  const [isError, setIsError] = useState(false);
-  
-  // Robust video ID extraction
-  const videoId = useMemo(() => {
-    try {
-      const match = videoUrl.match(/\d+$/);
-      return match ? match[0] : null;
-    } catch {
-      return null;
+
+  useEffect(() => {
+    const yid = getYoutubeId(videoUrl);
+    const vid = getVimeoId(videoUrl);
+
+    if (vid) {
+      // Using oEmbed for reliable thumbnail fetching
+      fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${vid}&width=1920&height=1080`)
+        .then(res => res.json())
+        .then(data => setThumb(data.thumbnail_url))
+        .catch(() => setThumb(null));
+    } else if (yid) {
+      setThumb(`https://img.youtube.com/vi/${yid}/maxresdefault.jpg`);
     }
   }, [videoUrl]);
 
-  useEffect(() => {
-    if (!videoId) {
-      setIsError(true);
-      return;
-    }
-    
-    const fetchThumb = async () => {
-      try {
-        const vimeoUrl = `https://vimeo.com/${videoId}`;
-        const apiUrl = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(vimeoUrl)}&width=1280`;
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
-        if (data.thumbnail_url) {
-          setThumb(data.thumbnail_url);
-        } else {
-          setIsError(true);
-        }
-      } catch (error) {
-        console.error("Vimeo thumbnail fetch error:", error);
-        setIsError(true);
-      }
-    };
-
-    fetchThumb();
-  }, [videoId]);
-
   return (
-    <div className="relative w-full h-full bg-dark/20 overflow-hidden group">
-      <img 
-        src={isError ? defaultThumb : (thumb || defaultThumb)} 
-        alt={title} 
-        className={`${className} ${thumb || isError ? 'opacity-100' : 'opacity-40'} transition-opacity duration-1000`}
-        loading="lazy"
-        decoding="async"
-        referrerPolicy="no-referrer"
-      />
-      {!thumb && !isError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-dark/10">
-          <div className="w-8 h-8 border-2 border-white/10 border-t-brand rounded-full animate-spin" />
-        </div>
-      )}
-    </div>
+    <img 
+      src={thumb || defaultThumb} 
+      alt={title} 
+      className={className}
+      loading="lazy"
+      decoding="async"
+      referrerPolicy="no-referrer"
+    />
   );
 };
 
 const OurWork = () => {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeCategory, setActiveCategory] = useState('All');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
 
   const categories = ['All', 'Corporate', 'Documentary', 'Sports', 'Fashion & Music'];
   
@@ -904,6 +866,8 @@ const OurWork = () => {
   // Split projects into two rows for mobile slider
   const row1 = filteredProjects.filter((_, i) => i % 2 === 0);
   const row2 = filteredProjects.filter((_, i) => i % 2 !== 0);
+
+  const isAnyVideoPlaying = activeProjectId !== null;
 
   return (
     <section id="work" className="py-24 md:py-48 px-6 bg-dark content-visibility-auto" data-theme="dark">
@@ -920,55 +884,32 @@ const OurWork = () => {
               <p className="text-white/30 font-light max-w-md text-base md:text-lg leading-relaxed">Explore our diverse portfolio of cinematic productions across various industries.</p>
             </div>
             
-            {/* Responsive Filter: Dropdown on Mobile, List on Desktop */}
+            {/* Responsive Filter */}
             <div className="relative w-full md:w-auto">
-              {/* Mobile Dropdown Button */}
               <button 
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="md:hidden w-full flex items-center justify-between gap-2.5 px-5 py-3 rounded-sm border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group"
+                className="w-full md:w-auto flex items-center justify-between gap-4 px-6 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md hover:border-brand/30 transition-all duration-500"
               >
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-3">
                   <SlidersHorizontal className="w-3.5 h-3.5 text-brand" />
-                  <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">
                     Filter: {activeCategory}
                   </span>
                 </div>
                 <ChevronDownIcon className={`w-3.5 h-3.5 text-white/40 transition-transform duration-500 ${isFilterOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* Desktop Filter List */}
-              <div className="hidden md:flex items-center gap-8">
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-500 relative py-2 ${
-                      activeCategory === cat ? 'text-brand' : 'text-white/40 hover:text-white'
-                    }`}
-                  >
-                    {cat}
-                    {activeCategory === cat && (
-                      <motion.div 
-                        layoutId="activeCategory"
-                        className="absolute -bottom-1 left-0 w-full h-px bg-brand"
-                      />
-                    )}
-                  </button>
-                ))}
-              </div>
-
               <AnimatePresence>
                 {isFilterOpen && (
                   <>
-                    <div className="fixed inset-0 z-40 md:hidden" onClick={() => setIsFilterOpen(false)} />
+                    <div className="fixed inset-0 z-40" onClick={() => setIsFilterOpen(false)} />
                     <motion.div
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute right-0 left-0 mt-4 w-full bg-dark/90 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden z-50 shadow-2xl md:hidden"
+                      className="absolute right-0 left-0 md:left-auto md:w-64 mt-4 bg-dark/95 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden z-50 shadow-2xl"
                     >
-                      <div className="p-1.5">
+                      <div className="p-2">
                         {categories.map((cat) => (
                           <button 
                             key={cat} 
@@ -976,9 +917,9 @@ const OurWork = () => {
                               setActiveCategory(cat);
                               setIsFilterOpen(false);
                             }}
-                            className={`w-full text-left px-5 py-3 rounded-md text-[9px] font-bold uppercase tracking-[0.2em] transition-all duration-300 ${
+                            className={`w-full text-left px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 ${
                               activeCategory === cat 
-                                ? 'bg-white text-black' 
+                                ? 'bg-brand text-white' 
                                 : 'text-white/40 hover:bg-white/5 hover:text-white'
                             }`}
                           >
@@ -993,8 +934,7 @@ const OurWork = () => {
             </div>
           </div>
 
-          {/* Desktop Grid */}
-          <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 lg:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 md:gap-16">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, index) => (
                 <motion.div
@@ -1005,124 +945,57 @@ const OurWork = () => {
                   viewport={{ once: true }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  onClick={() => setSelectedProject(project)}
-                  className="group cursor-pointer"
+                  className="group"
                 >
-                  <div className="aspect-video rounded-2xl md:rounded-[2.5rem] overflow-hidden relative">
-                    <ProjectThumbnail 
-                      videoUrl={project.videoUrl}
-                      title={project.title}
-                      defaultThumb={project.thumbnail}
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                    />
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-700" />
-                    
-                    {/* Play Button Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                      <Play className="w-12 h-12 text-white/80" />
-                    </div>
-
-                    {/* Text Overlay */}
-                    <div className="absolute bottom-0 left-0 w-full p-8 md:p-12">
-                      <div className="mb-4">
-                        <span className="inline-block text-[9px] font-mono tracking-[0.3em] uppercase text-white px-4 py-1.5 border border-brand/30 rounded-sm bg-brand/10 backdrop-blur-md">
-                          {project.category}
-                        </span>
+                  <div className="aspect-video rounded-3xl md:rounded-[3rem] overflow-hidden relative bg-black shadow-2xl">
+                    {activeProjectId === project.id ? (
+                      <div className="absolute inset-0 z-10">
+                        <VideoPlayer videoUrl={project.videoUrl} title={project.title} className="w-full h-full" />
+                        <button 
+                          onClick={() => setActiveProjectId(null)}
+                          className="absolute top-6 right-6 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-brand transition-all scale-110 z-20"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
                       </div>
-                      <h4 className="text-xl md:text-3xl font-display font-bold tracking-tight text-white group-hover:italic transition-all duration-500">
-                        {project.title}
-                      </h4>
-                    </div>
+                    ) : (
+                      <div 
+                        className="w-full h-full cursor-pointer relative"
+                        onClick={() => setActiveProjectId(project.id)}
+                      >
+                        <ProjectThumbnail 
+                          videoUrl={project.videoUrl}
+                          title={project.title}
+                          defaultThumb={project.thumbnail}
+                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                        />
+                        {/* Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-700" />
+                        
+                        {/* Play Button Overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                          <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
+                            <Play className="w-8 h-8 text-white fill-white" />
+                          </div>
+                        </div>
+
+                        {/* Text Overlay */}
+                        <div className="absolute bottom-0 left-0 w-full p-8 md:p-16">
+                          <div className="mb-6">
+                            <span className="inline-block text-[10px] font-mono tracking-[0.3em] uppercase text-white px-5 py-2 border border-brand/30 rounded-full bg-brand/10 backdrop-blur-md">
+                              {project.category}
+                            </span>
+                          </div>
+                          <h4 className="text-3xl md:text-5xl font-display font-bold tracking-tight text-white group-hover:italic transition-all duration-500 leading-tight">
+                            {project.title}
+                          </h4>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
-          </div>
-
-          {/* Mobile Two-Row Slider */}
-          <div className="md:hidden space-y-8 overflow-hidden -mx-6">
-            {/* Row 1: Scrolls Left */}
-            <div className="flex">
-              <motion.div 
-                animate={{ x: [0, -1000] }}
-                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                className="flex gap-4 px-6"
-              >
-                {[...row1, ...row1, ...row1].map((project, i) => (
-                  <div 
-                    key={`${project.id}-row1-${i}`}
-                    onClick={() => setSelectedProject(project)}
-                    className="w-[280px] flex-shrink-0"
-                  >
-                    <div className="aspect-video rounded-2xl overflow-hidden relative">
-                      <ProjectThumbnail 
-                        videoUrl={project.videoUrl}
-                        title={project.title}
-                        defaultThumb={project.thumbnail}
-                        className="w-full h-full object-cover" 
-                      />
-                      {/* Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70" />
-                      
-                      {/* Play Icon */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Play className="w-6 h-6 text-white/30 fill-white" />
-                      </div>
-
-                      {/* Text Overlay */}
-                      <div className="absolute bottom-0 left-0 w-full p-5">
-                        <span className="inline-block text-[7px] font-mono uppercase tracking-widest text-white px-3 py-1 border border-white/20 rounded-sm bg-white/10 backdrop-blur-md mb-2">
-                          {project.category}
-                        </span>
-                        <h4 className="text-base font-display font-bold text-white leading-tight">{project.title}</h4>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Row 2: Scrolls Right */}
-            <div className="flex">
-              <motion.div 
-                animate={{ x: [-1000, 0] }}
-                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                className="flex gap-4 px-6"
-              >
-                {[...row2, ...row2, ...row2].map((project, i) => (
-                  <div 
-                    key={`${project.id}-row2-${i}`}
-                    onClick={() => setSelectedProject(project)}
-                    className="w-[280px] flex-shrink-0"
-                  >
-                    <div className="aspect-video rounded-2xl overflow-hidden relative">
-                      <ProjectThumbnail 
-                        videoUrl={project.videoUrl}
-                        title={project.title}
-                        defaultThumb={project.thumbnail}
-                        className="w-full h-full object-cover" 
-                      />
-                      {/* Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70" />
-                      
-                      {/* Play Icon */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Play className="w-6 h-6 text-white/30 fill-white" />
-                      </div>
-
-                      {/* Text Overlay */}
-                      <div className="absolute bottom-0 left-0 w-full p-5">
-                        <span className="inline-block text-[7px] font-mono uppercase tracking-widest text-white px-3 py-1 border border-white/20 rounded-sm bg-white/10 backdrop-blur-md mb-2">
-                          {project.category}
-                        </span>
-                        <h4 className="text-base font-display font-bold text-white leading-tight">{project.title}</h4>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-            </div>
           </div>
         </div>
 
@@ -1161,53 +1034,6 @@ const OurWork = () => {
           </div>
         </div>
       </div>
-
-      {/* Project Modal */}
-      <AnimatePresence>
-        {selectedProject && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-6 glass"
-          >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="bg-dark w-full max-w-5xl rounded-3xl overflow-hidden relative shadow-2xl border border-white/5"
-            >
-              <button 
-                onClick={() => setSelectedProject(null)}
-                className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full glass flex items-center justify-center hover:bg-white/20 transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
-              
-              <div className="aspect-video w-full bg-black relative">
-                <iframe 
-                  src={`${selectedProject.videoUrl}?autoplay=1&title=0&byline=0&portrait=0&badge=0&autopause=0`} 
-                  className="w-full h-full"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowFullScreen
-                  title={selectedProject.title}
-                />
-              </div>
-              
-              <div className="p-10">
-                <span className="text-xs font-mono tracking-widest uppercase text-white/40 mb-4 block">
-                  {selectedProject.category}
-                </span>
-                <h2 className="text-4xl font-display font-bold mb-6">{selectedProject.title}</h2>
-                <p className="text-white/60 text-lg font-light max-w-2xl">
-                  {selectedProject.description}
-                </p>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 };
@@ -1288,6 +1114,26 @@ const Clients = () => {
 };
 
 const Contact = () => {
+  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    project: '',
+    message: ''
+  });
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    setFormState('submitting');
+    
+    // Simulate API call
+    setTimeout(() => {
+      setFormState('success');
+      setFormData({ name: '', email: '', project: '', message: '' });
+      setTimeout(() => setFormState('idle'), 5000);
+    }, 1500);
+  };
+
   return (
     <section id="contact" className="py-24 md:py-48 px-6 bg-white text-black content-visibility-auto" data-theme="light">
       <div className="max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32">
@@ -1315,41 +1161,70 @@ const Contact = () => {
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="bg-dark/5 p-8 md:p-16 rounded-3xl md:rounded-[2.5rem] border border-dark/5 animate-smooth"
         >
-          <form className="space-y-8 md:space-y-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          {formState === 'success' ? (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="h-full flex flex-col items-center justify-center text-center py-12"
+            >
+              <div className="w-20 h-20 rounded-full bg-brand text-white flex items-center justify-center mb-8">
+                <Users className="w-10 h-10" />
+              </div>
+              <h3 className="text-3xl font-display font-bold mb-4">Message Sent!</h3>
+              <p className="text-black/40">We'll get back to you sooner than you think.</p>
+            </motion.div>
+          ) : (
+            <form className="space-y-8 md:space-y-12" onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                <div className="relative group">
+                  <input 
+                    required
+                    type="text" 
+                    placeholder="Name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 text-lg md:text-xl font-light selectable"
+                  />
+                </div>
+                <div className="relative group">
+                  <input 
+                    required
+                    type="email" 
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 text-lg md:text-xl font-light selectable"
+                  />
+                </div>
+              </div>
               <div className="relative group">
                 <input 
                   type="text" 
-                  placeholder="Name"
+                  placeholder="Project Type"
+                  value={formData.project}
+                  onChange={(e) => setFormData({...formData, project: e.target.value})}
                   className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 text-lg md:text-xl font-light selectable"
                 />
               </div>
               <div className="relative group">
-                <input 
-                  type="email" 
-                  placeholder="Email"
-                  className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 text-lg md:text-xl font-light selectable"
+                <textarea 
+                  required
+                  placeholder="Message"
+                  rows={4}
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 resize-none text-lg md:text-xl font-light selectable"
                 />
               </div>
-            </div>
-            <div className="relative group">
-              <input 
-                type="text" 
-                placeholder="Project Type"
-                className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 text-lg md:text-xl font-light selectable"
-              />
-            </div>
-            <div className="relative group">
-              <textarea 
-                placeholder="Message"
-                rows={4}
-                className="w-full bg-transparent border-b border-black/10 py-4 md:py-6 outline-none focus:border-black transition-colors placeholder:text-black/20 resize-none text-lg md:text-xl font-light selectable"
-              />
-            </div>
-            <button className="w-full py-5 md:py-6 bg-dark text-white font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs hover:bg-dark/80 transition-all duration-500 rounded-xl md:rounded-2xl">
-              Send Message
-            </button>
-          </form>
+              <button 
+                disabled={formState === 'submitting'}
+                type="submit"
+                className="w-full py-5 md:py-6 bg-dark text-white font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs hover:bg-dark/80 transition-all duration-500 rounded-xl md:rounded-2xl disabled:opacity-50"
+              >
+                {formState === 'submitting' ? 'Sending...' : 'Send Message'}
+              </button>
+            </form>
+          )}
         </motion.div>
       </div>
     </section>
@@ -1585,7 +1460,9 @@ export default function App() {
       <Navbar />
       
       <main>
-        <Hero onVideoLoad={() => setIsLoading(false)} />
+        <Hero 
+          onVideoLoad={() => setIsLoading(false)} 
+        />
         <About />
         <Approach isLoading={isLoading} />
         <Services />
