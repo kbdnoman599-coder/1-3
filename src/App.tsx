@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Player from '@vimeo/player';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'motion/react';
 import { 
@@ -51,118 +51,118 @@ const PROJECTS: Project[] = [
   // CORPORATE
   {
     id: 'c1',
-    title: 'AKIJ BIAX AV',
+    title: 'Akij Biax AV',
     category: 'Corporate',
     thumbnail: 'https://picsum.photos/seed/akijbiax/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'One Third created an audiovisual story for Akij Biax Films Ltd., showcasing their innovation and global presence in packaging. With cinematic visuals and strong storytelling, we turned their brand values into a powerful narrative. At One Third, we craft productions that inspire, connect, and elevate brands.'
+    videoUrl: 'https://player.vimeo.com/video/1186036602',
+    description: 'One Third created an audiovisual story for Akij Biax Films Ltd., showcasing their innovation and global presence in packaging. With cinematic visuals and strong storytelling, we turned their brand values into a powerful narrative.'
   },
   {
     id: 'c2',
-    title: 'AKIJBASIR REUNION',
+    title: 'Acteus Promo',
     category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/akijreunion/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'This video captures the festive spirit and vibrant energy of the event, showcasing a day filled with camaraderie, entertainment, and celebration. Watch as employees reconnect, share laughter, and create lasting memories, reinforcing the strong bonds that make the Akijbashir Group a family.'
+    thumbnail: 'https://picsum.photos/seed/acteus/1920/1080',
+    videoUrl: 'https://player.vimeo.com/video/1186039651',
+    description: 'A dynamic promotional film for Acteus, highlighting their industrial impact and operational excellence through cinematic storytelling.'
   },
   {
     id: 'c3',
-    title: 'EXECUTIVE EXCELLENCE PROGRAM',
+    title: 'ASC Transcom',
     category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/ulab/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'A Recap by One Third Production. Join us for an exclusive look back at the ULAB Executive Excellence Program 2024, organized by the University of Liberal Arts Bangladesh (ULAB) and facilitated by Gemcon Group.'
+    thumbnail: 'https://picsum.photos/seed/asctranscom/1920/1080',
+    videoUrl: 'https://player.vimeo.com/video/1186350615',
+    description: 'Showcasing the technological advancement and service quality of ASC Transcom through high-end visual production.'
   },
   {
     id: 'c4',
-    title: 'SUPERMOM HYPER DAY',
+    title: 'BD Lamps PLC',
     category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/supermom/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'At One Third Production, we believe in telling stories that matter. In this special video, we bring you the highlights from "Supermom Hyper Day" at Hyper Playgrounds, an event dedicated to celebrating the superheroes in our lives: moms!'
+    thumbnail: 'https://picsum.photos/seed/bdlamps/1920/1080',
+    videoUrl: 'https://player.vimeo.com/video/1186352653',
+    description: 'Lighting up the future with BD Lamps PLC. A cinematic journey through their manufacturing process and lighting solutions.'
   },
   {
     id: 'c5',
-    title: 'Transcom Electronics Factory AV',
+    title: 'SURMC Promo',
     category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/transcom/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'One Third created an audiovisual story for Transcom Electric LTD, showcasing their innovation and global presence in manufacturing. With cinematic visuals and strong storytelling, we turned their brand values into a powerful narrative. At One Third, we craft productions that inspire, connect, and elevate brands.'
+    thumbnail: 'https://picsum.photos/seed/surmc/1920/1080',
+    videoUrl: 'https://player.vimeo.com/video/1186359146',
+    description: 'A professional promotional highlight for SURMC, showcasing excellence in their field.'
   },
   {
     id: 'c6',
-    title: 'Walton Factory AV',
+    title: 'ULAB Final Promo',
     category: 'Corporate',
-    thumbnail: 'https://picsum.photos/seed/walton/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'One Third created an audiovisual story for Walton, one of the leading brands in Bangladesh, showcasing their innovation and global presence in manufacturing. With cinematic visuals and strong storytelling, we turned their brand values into a powerful narrative. At One Third, we craft productions that inspire, connect, and elevate brands.'
+    thumbnail: 'https://picsum.photos/seed/ulab/1920/1080',
+    videoUrl: 'https://player.vimeo.com/video/1186360559',
+    description: 'Celebrating the achievements and vision of ULAB through a comprehensive final promotional film.'
+  },
+  {
+    id: 'c7',
+    title: 'TEL',
+    category: 'Corporate',
+    thumbnail: 'https://picsum.photos/seed/tel/1920/1080',
+    videoUrl: 'https://player.vimeo.com/video/1186359683',
+    description: 'A technical and corporate showcase for TEL, focusing on innovation and connectivity.'
   },
   // DOCUMENTARY
   {
     id: 'd1',
-    title: 'SOMANTORAL',
+    title: 'Somantaral',
     category: 'Documentary',
     thumbnail: 'https://picsum.photos/seed/somantaral/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'A One Third Production, "Somantaral" is a powerful documentary short showcasing the journey of the transgender community in Bangladesh. This film highlights how the community, often marginalized and isolated, is finding a new path to a dignified life through skill development and economic empowerment.'
+    videoUrl: 'https://player.vimeo.com/video/1186356473',
+    description: 'A powerful documentary short showcasing the journey of the transgender community in Bangladesh. Finding a new path to a dignified life through skill development and economic empowerment.'
   },
   {
     id: 'd2',
-    title: 'RAW BANGLADESH',
+    title: 'UN Women D',
     category: 'Documentary',
-    thumbnail: 'https://picsum.photos/seed/rawbd/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'In this video, locals come together in a muddy river to engage in rural fishing, showing the raw beauty of our country. The community works in unison to cast nets and search for their catch, a practice that has been passed down through generations.'
+    thumbnail: 'https://picsum.photos/seed/unwomen/1920/1080',
+    videoUrl: 'https://player.vimeo.com/video/1186364111',
+    description: 'A collaborative documentary piece with UN Women, exploring human stories and societal impact.'
   },
   {
     id: 'd3',
-    title: 'Acid Survivors Foundation (ASF)',
+    title: 'Norway Promo',
     category: 'Documentary',
-    thumbnail: 'https://picsum.photos/seed/asf/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'This film shines a light on the incredible work of the Acid Survivors Foundation (ASF), highlighting their unwavering commitment to providing medical, legal, and psychosocial support to survivors of acid violence.'
+    thumbnail: 'https://picsum.photos/seed/norway/1920/1080',
+    videoUrl: 'https://player.vimeo.com/video/1186354495',
+    description: 'An exploration of narrative and landscape, documenting unique stories from Norway.'
   },
   // SPORTS
   {
     id: 's1',
-    title: 'GEMCON 5TH GOLF TOURNAMENT',
+    title: '5th Gemcon Golf Tournament 2024',
     category: 'Sports',
     thumbnail: 'https://picsum.photos/seed/golf/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'Held at the stunning Jashore Golf & Country Club, this tournament brought together golf enthusiasts for a day of sport, strategy, and camaraderie.'
+    videoUrl: 'https://player.vimeo.com/video/1186035093',
+    description: 'Capturing the precision and camaraderie of the 5th Gemcon Golf Tournament at the Jashore Golf & Country Club.'
   },
   {
     id: 's2',
-    title: 'STUDENT UPRISING MEMORIAL TOURNAMENT',
+    title: 'UP8 UIU',
     category: 'Sports',
-    thumbnail: 'https://picsum.photos/seed/football/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'One Third Production presents a moving tribute in honor of the martyrs of the student uprising. The Student Uprising Memorial Cup, a football tournament, serves as a powerful reminder of the sacrifices made for a cause greater than ourselves.'
+    thumbnail: 'https://picsum.photos/seed/uiu/1920/1080',
+    videoUrl: 'https://player.vimeo.com/video/1186364694',
+    description: 'High-energy sports coverage of the UP8 tournament at UIU.'
+  },
+  {
+    id: 's3',
+    title: 'Hyper PG Full Video',
+    category: 'Sports',
+    thumbnail: 'https://picsum.photos/seed/hyperpg/1920/1080',
+    videoUrl: 'https://player.vimeo.com/video/1186367639',
+    description: 'Complete coverage of Hyper PG, showcasing energy, action, and motion.'
   },
   // Fashion & Music
   {
     id: 'f1',
-    title: 'Ai Rate (GANCHILL PRESENT)',
+    title: 'Reunion Ajik',
     category: 'Fashion & Music',
-    thumbnail: 'https://picsum.photos/seed/airate/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'A visual exploration of fashion and music, presented by Ganchill.'
-  },
-  {
-    id: 'f2',
-    title: 'Shinduk',
-    category: 'Fashion & Music',
-    thumbnail: 'https://picsum.photos/seed/shinduk/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'Cinematic fashion film showcasing the Shinduk collection.'
-  },
-  {
-    id: 'f3',
-    title: 'Azwa',
-    category: 'Fashion & Music',
-    thumbnail: 'https://picsum.photos/seed/azwa/1920/1080',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'Fashion narrative for Azwa, blending style with cinematic storytelling.'
+    thumbnail: 'https://picsum.photos/seed/ajik/1920/1080',
+    videoUrl: 'https://player.vimeo.com/video/1186355577',
+    description: 'A celebratory visual piece documenting the festive spirit of the Ajik reunion.'
   }
 ];
 
@@ -211,21 +211,21 @@ const SERVICES = [
 const TEAM: TeamMember[] = [
   {
     id: '1',
-    name: 'EMZAMUL HAQE',
+    name: 'Emzamul Haqe',
     role: 'Photographer',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/b81711b429acbfb5811d90fa7c4c1a15.jpg',
     quote: 'Emzamul Haqe is a talented photographer for One Third Production. He has a great eye for capturing the perfect moment and telling a story through his images. His photography work helps bring every project to life, documenting events and people with a unique and professional touch.'
   },
   {
     id: '2',
-    name: 'MD IBRAHIM KHALIL',
+    name: 'MD Ibrahim Khalil',
     role: 'Cinematographer',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/098df0b7547226b5b98b93caba682bd4.jpg',
-    quote: 'MD IBRAHIM KHALIL is the talented Cinematographer at One Third Production. With a keen eye for visual storytelling, he is an expert at capturing the heart of every story. His work brings projects to life with dynamic and professional visuals, ensuring every frame is crafted to perfection.'
+    quote: 'MD Ibrahim Khalil is the talented Cinematographer at One Third Production. With a keen eye for visual storytelling, he is an expert at capturing the heart of every story. His work brings projects to life with dynamic and professional visuals, ensuring every frame is crafted to perfection.'
   },
   {
     id: '3',
-    name: 'SHAHRIAR SHOMRAT',
+    name: 'Shahriar Shomrat',
     role: 'Drone Pilot',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/9646f6dbfb325f4e7771f4b6facd64c9.jpg',
     quote: 'As a certified drone pilot for One Third Production, Shahriar Shomrat provides a unique and dynamic perspective to every project. His expertise in aerial cinematography allows him to capture stunning, professional footage from above, adding a cinematic touch that elevates the entire production.'
@@ -235,13 +235,13 @@ const TEAM: TeamMember[] = [
 const FOUNDERS = [
   {
     id: 'f1',
-    name: 'Tarek bin zihad',
+    name: 'Tarek Bin Zihad',
     role: 'CO-FOUNDER',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/88ba5ec2f8071299637dee876d9c1bea.jpg'
   },
   {
     id: 'f2',
-    name: 'SHADMAN TASIN',
+    name: 'Shadman Tasin',
     role: 'CO-FOUNDER & HEAD OF OPERATIONS',
     image: 'https://pbasweeklyplanner.my.canva.site/one-third-production/_assets/media/0a528865f5998c454abfda7de50615f2.jpg'
   }
@@ -593,7 +593,7 @@ const Hero = ({ onVideoLoad }: { onVideoLoad: () => void }) => {
         <div className={`absolute inset-0 w-full h-full scale-105 transition-opacity duration-1000 ease-out ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
           <iframe
             ref={iframeRef}
-            src="https://player.vimeo.com/video/1182455135?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&quality=1080p"
+            src="https://player.vimeo.com/video/1186354771?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&quality=1080p&autopause=0&badge=0&portrait=0"
             className="absolute top-1/2 left-1/2 w-[177.77777778vh] min-w-full h-[56.25vw] min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
             frameBorder="0"
             allow="autoplay; fullscreen"
@@ -829,6 +829,67 @@ const Services = () => {
   );
 };
 
+// Project Thumbnail Helper
+const ProjectThumbnail = ({ videoUrl, title, className, defaultThumb }: { videoUrl: string, title: string, className?: string, defaultThumb: string }) => {
+  const [thumb, setThumb] = useState<string | null>(null);
+  const [isError, setIsError] = useState(false);
+  
+  // Robust video ID extraction
+  const videoId = useMemo(() => {
+    try {
+      const match = videoUrl.match(/\d+$/);
+      return match ? match[0] : null;
+    } catch {
+      return null;
+    }
+  }, [videoUrl]);
+
+  useEffect(() => {
+    if (!videoId) {
+      setIsError(true);
+      return;
+    }
+    
+    const fetchThumb = async () => {
+      try {
+        const vimeoUrl = `https://vimeo.com/${videoId}`;
+        const apiUrl = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(vimeoUrl)}&width=1280`;
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        if (data.thumbnail_url) {
+          setThumb(data.thumbnail_url);
+        } else {
+          setIsError(true);
+        }
+      } catch (error) {
+        console.error("Vimeo thumbnail fetch error:", error);
+        setIsError(true);
+      }
+    };
+
+    fetchThumb();
+  }, [videoId]);
+
+  return (
+    <div className="relative w-full h-full bg-dark/20 overflow-hidden group">
+      <img 
+        src={isError ? defaultThumb : (thumb || defaultThumb)} 
+        alt={title} 
+        className={`${className} ${thumb || isError ? 'opacity-100' : 'opacity-40'} transition-opacity duration-1000`}
+        loading="lazy"
+        decoding="async"
+        referrerPolicy="no-referrer"
+      />
+      {!thumb && !isError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-dark/10">
+          <div className="w-8 h-8 border-2 border-white/10 border-t-brand rounded-full animate-spin" />
+        </div>
+      )}
+    </div>
+  );
+};
+
 const OurWork = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeCategory, setActiveCategory] = useState('All');
@@ -948,13 +1009,11 @@ const OurWork = () => {
                   className="group cursor-pointer"
                 >
                   <div className="aspect-video rounded-2xl md:rounded-[2.5rem] overflow-hidden relative">
-                    <img 
-                      src={project.thumbnail} 
-                      alt={project.title} 
+                    <ProjectThumbnail 
+                      videoUrl={project.videoUrl}
+                      title={project.title}
+                      defaultThumb={project.thumbnail}
                       className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                      loading="lazy"
-                      decoding="async"
-                      referrerPolicy="no-referrer"
                     />
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-700" />
@@ -997,13 +1056,11 @@ const OurWork = () => {
                     className="w-[280px] flex-shrink-0"
                   >
                     <div className="aspect-video rounded-2xl overflow-hidden relative">
-                      <img 
-                        src={project.thumbnail} 
-                        alt={project.title} 
+                      <ProjectThumbnail 
+                        videoUrl={project.videoUrl}
+                        title={project.title}
+                        defaultThumb={project.thumbnail}
                         className="w-full h-full object-cover" 
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer" 
                       />
                       {/* Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70" />
@@ -1040,13 +1097,11 @@ const OurWork = () => {
                     className="w-[280px] flex-shrink-0"
                   >
                     <div className="aspect-video rounded-2xl overflow-hidden relative">
-                      <img 
-                        src={project.thumbnail} 
-                        alt={project.title} 
+                      <ProjectThumbnail 
+                        videoUrl={project.videoUrl}
+                        title={project.title}
+                        defaultThumb={project.thumbnail}
                         className="w-full h-full object-cover" 
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer" 
                       />
                       {/* Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70" />
@@ -1117,10 +1172,11 @@ const OurWork = () => {
             className="fixed inset-0 z-[100] flex items-center justify-center p-6 glass"
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-dark w-full max-w-5xl rounded-3xl overflow-hidden relative"
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="bg-dark w-full max-w-5xl rounded-3xl overflow-hidden relative shadow-2xl border border-white/5"
             >
               <button 
                 onClick={() => setSelectedProject(null)}
@@ -1129,11 +1185,13 @@ const OurWork = () => {
                 <X className="w-6 h-6" />
               </button>
               
-              <div className="aspect-video w-full bg-white/5">
+              <div className="aspect-video w-full bg-black relative">
                 <iframe 
-                  src={`${selectedProject.videoUrl}${selectedProject.videoUrl.includes('?') ? '&' : '?'}vq=hd1080&quality=1080p`} 
+                  src={`${selectedProject.videoUrl}?autoplay=1&title=0&byline=0&portrait=0&badge=0&autopause=0`} 
                   className="w-full h-full"
+                  allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen
+                  title={selectedProject.title}
                 />
               </div>
               
