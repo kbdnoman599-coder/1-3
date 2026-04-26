@@ -339,62 +339,6 @@ const Navbar = () => {
   );
 };
 
-const SecurityLayer = () => {
-  useEffect(() => {
-    const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault();
-    };
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Disable F12
-      if (e.key === 'F12') {
-        e.preventDefault();
-      }
-      // Disable Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
-        e.preventDefault();
-      }
-      // Disable Ctrl+U (View Source)
-      if (e.ctrlKey && e.key === 'u') {
-        e.preventDefault();
-      }
-      // Disable Ctrl+S (Save Page)
-      if (e.ctrlKey && e.key === 's') {
-        e.preventDefault();
-      }
-    };
-
-    const handleDragStart = (e: DragEvent) => {
-      e.preventDefault();
-    };
-
-    const handleTouchStart = (e: TouchEvent) => {
-      if (e.touches.length > 1) {
-        e.preventDefault();
-      }
-    };
-
-    const handleGestureStart = (e: any) => {
-      e.preventDefault();
-    };
-
-    document.addEventListener('contextmenu', handleContextMenu);
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('dragstart', handleDragStart);
-    document.addEventListener('touchstart', handleTouchStart, { passive: false });
-    document.addEventListener('gesturestart', handleGestureStart);
-
-    return () => {
-      document.removeEventListener('contextmenu', handleContextMenu);
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('dragstart', handleDragStart);
-      document.removeEventListener('touchstart', handleTouchStart);
-      document.removeEventListener('gesturestart', handleGestureStart);
-    };
-  }, []);
-
-  return null;
-};
 
 const Preloader = ({ isLoading }: { isLoading: boolean }) => {
   const [progress, setProgress] = useState(0);
@@ -1453,7 +1397,6 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen font-sans selection:bg-brand selection:text-white">
-      <SecurityLayer />
       <Preloader isLoading={isLoading} />
       <div className="grain-overlay" />
       <CustomCursor />

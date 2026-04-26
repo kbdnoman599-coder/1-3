@@ -14,16 +14,10 @@
   body {
     @apply bg-dark text-white selection:bg-brand selection:text-white antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
   }
 
   img, video, iframe {
-    pointer-events: none;
-    -webkit-user-drag: none;
-    user-drag: none;
+    @apply antialiased;
   }
 
   /* Custom Scrollbar */
